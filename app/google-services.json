@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "455016769785",
+    "firebase_url": "https://fete-3963c.firebaseio.com",
+    "project_id": "fete-3963c",
+    "storage_bucket": "fete-3963c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455016769785:android:3d119179dd260faa",
+        "android_client_info": {
+          "package_name": "com.example.arturolopez.fete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455016769785-7v8nnrm02j0b0gcvkqsc0pvlvujanj1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arturolopez.fete",
+            "certificate_hash": "9e85c83df89c093a7eed3dd04791aa431ee9f3cb"
+          }
+        },
+        {
+          "client_id": "455016769785-2e4u8mmbas1mtl7qurpr1dbug86imreb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6cJrg-iZxqPDLNXSdnGRGg2aOVpCO6AQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455016769785-2e4u8mmbas1mtl7qurpr1dbug86imreb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
