@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+    private Button ChatButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ChatButton = findViewById(R.id.chat_btn);
+
+        ChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MainActivity.this, ChatActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -110,5 +123,6 @@ public class MainActivity extends AppCompatActivity
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("message");
         databaseReference.setValue("Hello, World!");
+
     }
 }
