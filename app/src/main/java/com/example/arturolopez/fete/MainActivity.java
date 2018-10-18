@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity
         // Write a message to the database
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("message");
-
         databaseReference.setValue("Hello, World!");
     }
 }
