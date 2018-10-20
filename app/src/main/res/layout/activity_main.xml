@@ -23,6 +23,20 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" >
 
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/image_view"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            android:contentDescription="@string/nav_header_desc"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:src="@drawable/placeholder"
+            />
+
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
