@@ -25,6 +25,60 @@
             android:src="@drawable/placeholder"
             />
 
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="name"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="26dp"/>
+        <View
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/email_tv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="email"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="26dp"
+            />
+        <View
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/phone_tv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="number"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="26dp"/>
+        <View
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/bio_tv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="bio"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="26dp"/>
+        <View
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="center_horizontal"/>
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
