@@ -25,59 +25,54 @@
             android:src="@drawable/placeholder"
             />
 
-        <TextView
+        <EditText
             android:id="@+id/name_tv"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="name"
-            android:layout_marginTop="20dp"
+            android:layout_height="50dp"
+            android:hint="name"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textSize="26dp"/>
-        <View
-            android:layout_width="320dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="center_horizontal"/>
-        <TextView
+
+        <EditText
             android:id="@+id/email_tv"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="email"
-            android:layout_marginTop="30dp"
+            android:layout_height="50dp"
+            android:hint="email"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textSize="26dp"
             />
-        <View
-            android:layout_width="320dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="center_horizontal"/>
-        <TextView
+
+        <EditText
             android:id="@+id/phone_tv"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="number"
-            android:layout_marginTop="30dp"
+            android:layout_height="50dp"
+            android:hint="number"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textSize="26dp"/>
-        <View
-            android:layout_width="320dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="center_horizontal"/>
-        <TextView
+
+        <EditText
             android:id="@+id/bio_tv"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="bio"
-            android:layout_marginTop="30dp"
+            android:layout_height="50dp"
+            android:hint="bio"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textSize="26dp"/>
-        <View
-            android:layout_width="320dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/submit_tv"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="submit"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="26dp"/>
+
+
+
 
 
     </LinearLayout>
