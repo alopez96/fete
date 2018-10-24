@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
-    private Button ChatButton;
+    private Button chatButton;
+    private Button eventButton;
     private CircleImageView Selfie;
     private TextView TV;
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //load image
+        //load image for userImage
         Selfie = findViewById(R.id.image_view);
         imageUrl = "https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36";
         Picasso.get().load(imageUrl).into(Selfie);
@@ -67,12 +68,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ChatButton = findViewById(R.id.chat_btn);
-        ChatButton.setOnClickListener(new View.OnClickListener() {
+        chatButton = findViewById(R.id.chat_btn);
+        eventButton = findViewById(R.id.create_event_btn);
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, ChatActivity.class);
+                startActivity(i);
+            }
+        });
+
+        eventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
                 startActivity(i);
             }
         });
