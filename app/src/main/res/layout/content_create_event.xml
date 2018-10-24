@@ -69,7 +69,7 @@
             android:hint="description/ notes"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:textSize="32dp"
+            android:textSize="26dp"
             android:backgroundTint="@color/colorPrimary"/>
 
 

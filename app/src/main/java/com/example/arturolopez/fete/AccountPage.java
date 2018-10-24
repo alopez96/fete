@@ -28,7 +28,6 @@ public class AccountPage extends AppCompatActivity {
     private String username, email, number, bio;
     private String uid, key;
 
-    private FirebaseAuth mFirebaseAuth;
     private FirebaseDatabase mFirebaseDatabase;             //entry point for our app to access the database
     private DatabaseReference mUsersReference;
     private DatabaseReference mspecificUserRef;
@@ -65,7 +64,6 @@ public class AccountPage extends AppCompatActivity {
 
         thisUser = new MyUser(username, email, number, bio, uid, key);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUsersReference = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUsersReference.child(uid);
