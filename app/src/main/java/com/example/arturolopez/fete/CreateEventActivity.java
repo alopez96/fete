@@ -24,6 +24,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText Address;
     private EditText Description;
     private Button Submit;
+    private Button Cancel;
 
     private String partyname, host, price, address, descr, partyid;
 
@@ -45,12 +46,22 @@ public class CreateEventActivity extends AppCompatActivity {
         Price = findViewById(R.id.price_tv);
         Address = findViewById(R.id.address_tv);
         Description = findViewById(R.id.desc_tv);
-        Submit = findViewById(R.id.submit_tv);
+        Submit = findViewById(R.id.submit_event_tv);
+        Cancel = findViewById(R.id.cancel_event_tv);
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submitEvent();
+            }
+        });
+
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CreateEventActivity.this, "cancelled", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(CreateEventActivity.this, MainActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -66,9 +77,7 @@ public class CreateEventActivity extends AppCompatActivity {
         mPartyReference = mFirebaseDatabase.getReference().child("parties");
         partyid = mPartyReference.push().getKey();
         mspecificPartyRef = mPartyReference.child(partyid);
-
         thisParty = new Party(partyname, host, price, address, descr, partyid);
-
         mspecificPartyRef.setValue(thisParty);
 
         Toast.makeText(this, "party created",Toast.LENGTH_SHORT).show();
