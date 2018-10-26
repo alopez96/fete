@@ -6,6 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,13 +27,23 @@ import com.squareup.picasso.Picasso;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "RecyclerViewAdapter";
+
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+
+    //vars
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>();
+    //vars
+    private ArrayList<String> mDates = new ArrayList<>();
 
     private Button chatButton;
     private Button eventButton;
@@ -158,5 +170,53 @@ public class MainActivity extends AppCompatActivity
         databaseReference = database.getReference("message");
         databaseReference.setValue("Hello, World!");
 
+        getImages();
+    }
+
+
+    private void getImages(){
+        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
+
+        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+        mNames.add("Havasu Falls");
+
+        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
+        mNames.add("Trondheim");
+
+        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
+        mNames.add("Portugal");
+
+        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
+        mNames.add("Rocky Mountain National Park");
+
+
+        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
+        mNames.add("Mahahual");
+
+        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
+        mNames.add("Frozen Lake");
+
+
+        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
+        mNames.add("White Sands Desert");
+
+        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
+        mNames.add("Austrailia");
+
+        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
+        mNames.add("Washington");
+
+        initRecyclerView();
+
+    }
+
+
+    private void initRecyclerView(){
+        Log.d(TAG, "initRecyclerView: init recyclerview");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls);
+        recyclerView.setAdapter(adapter);
     }
 }
