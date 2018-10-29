@@ -48,7 +48,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                 .load(mImageUrls.get(position))
                 .into(holder.image);
 
-
+        holder.date.setText(mDates.get(position));
 
         holder.name.setText(mNames.get(position));
         holder.image.setOnClickListener(new View.OnClickListener() {
