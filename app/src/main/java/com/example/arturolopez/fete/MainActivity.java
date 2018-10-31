@@ -98,8 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             Toast.makeText(MainActivity.this, "chat", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(MainActivity.this, ChatActivity.class);
-            startActivity(i);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
