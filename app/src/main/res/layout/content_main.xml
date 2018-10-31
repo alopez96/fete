@@ -21,12 +21,35 @@
             android:id="@+id/chat_btn"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:text="Go to Chat"
+            android:text="Go to chat"
+            android:textAllCaps="false"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
             android:textColor="#fff"
             android:background="@color/colorPrimary"
             />
+
+        <Button
+            android:id="@+id/create_event_btn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Create event"
+            android:textAllCaps="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:textColor="#fff"
+            android:background="@color/colorPrimary"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerView"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
+            >
+
+        </android.support.v7.widget.RecyclerView>
 
 
     </LinearLayout>

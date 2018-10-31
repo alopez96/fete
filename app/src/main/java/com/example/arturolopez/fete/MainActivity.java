@@ -6,6 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,15 +27,26 @@ import com.squareup.picasso.Picasso;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "RecyclerViewAdapter";
+
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
-    private Button ChatButton;
+    //vars
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>();
+    //vars
+    private ArrayList<String> mDates = new ArrayList<>();
+
+    private Button chatButton;
+    private Button eventButton;
     private CircleImageView Selfie;
     private TextView TV;
 
@@ -53,7 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //load image
+        //load image for userImage
         Selfie = findViewById(R.id.image_view);
         imageUrl = "https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36";
         Picasso.get().load(imageUrl).into(Selfie);
@@ -67,12 +80,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ChatButton = findViewById(R.id.chat_btn);
-        ChatButton.setOnClickListener(new View.OnClickListener() {
+        chatButton = findViewById(R.id.chat_btn);
+        eventButton = findViewById(R.id.create_event_btn);
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, ChatActivity.class);
+                startActivity(i);
+            }
+        });
+
+        eventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
                 startActivity(i);
             }
         });
@@ -147,5 +170,60 @@ public class MainActivity extends AppCompatActivity
         databaseReference = database.getReference("message");
         databaseReference.setValue("Hello, World!");
 
+        getImages();
+    }
+
+
+    private void getImages(){
+        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
+
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+        mNames.add("party on high St");
+
+        mDates.add("tomorrow at 3pm");
+        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
+        mNames.add("Title 2");
+
+        mDates.add("Weds at 1pm");
+        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
+        mNames.add("night club at 8pm");
+
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
+        mNames.add("pizza place");
+
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
+        mNames.add("Mahahual");
+
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
+        mNames.add("Frozen Lake");
+        
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
+        mNames.add("White Sands Desert");
+
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
+        mNames.add("Austrailia");
+
+        mDates.add("today at 7pm");
+        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
+        mNames.add("Washington");
+
+        initRecyclerView();
+
+    }
+
+
+    private void initRecyclerView(){
+        Log.d(TAG, "initRecyclerView: init recyclerview");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls);
+        recyclerView.setAdapter(adapter);
     }
 }
