@@ -2,6 +2,7 @@ package com.example.arturolopez.fete;
 
 public class Party {
     public String partyName;
+    public String date;
     public String hostName;
     public String price;
     public String address;
@@ -10,8 +11,9 @@ public class Party {
 
     public Party(){}
 
-    public Party(String partyName, String hostName, String price, String address, String description, String partyid) {
+    public Party(String partyName, String date, String hostName, String price, String address, String description, String partyid) {
         this.partyName = partyName;
+        this.date = date;
         this.hostName = hostName;
         this.price = price;
         this.address = address;
@@ -22,6 +24,10 @@ public class Party {
 
     public String getPartyName() {
         return partyName;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getHostName() {

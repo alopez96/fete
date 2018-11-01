@@ -32,10 +32,10 @@
         android:backgroundTint="@color/colorPrimary"/>
 
     <EditText
-        android:id="@+id/host_name"
+        android:id="@+id/date_tv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="host"
+        android:hint="date and time"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textSize="26dp"

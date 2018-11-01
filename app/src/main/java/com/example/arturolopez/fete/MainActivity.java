@@ -185,29 +185,19 @@ public class MainActivity extends AppCompatActivity
                 Log.e("Count " ,""+ dataSnapshot.getChildrenCount());
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
                     String name = childDataSnapshot.child("address").getValue().toString();
-                    String desc = childDataSnapshot.child("description").getValue().toString();
-                    mDates.add(desc);
+                    String date = childDataSnapshot.child("date").getValue().toString();
+                    mDates.add(date);
                     mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
                     mNames.add(name);
                     initRecyclerView();
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-        mNames.add("party on high St");
-
-        mDates.add("tomorrow at 3pm");
-        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
-        mNames.add("Title 2");
 
     }
 
