@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,7 @@ public class AccountPage extends AppCompatActivity {
     private String username, email, number, bio;
     private String uid, key;
 
+    private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseDatabase;             //entry point for our app to access the database
     private DatabaseReference mUsersReference;
     private DatabaseReference mspecificUserRef;
@@ -54,25 +58,48 @@ public class AccountPage extends AppCompatActivity {
     }
 
 
+    public void prefillInfo(){
+
+    }
 
     public void submitChanges(){
         username = nameText.getText().toString();
-        email = emailText.getText().toString();
         number = numberText.getText().toString();
         bio = bioText.getText().toString();
-        uid = "tempid";
 
-        thisUser = new MyUser(username, email, number, bio, uid, key);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null) {
+            //user is signed in
+            email = user.getEmail();
+            uid = user.getUid();
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mUsersReference = mFirebaseDatabase.getReference().child("users");
+            mUsersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChild(uid)) {
+                        Log.i("AccountPage", "user exists");
+                        //update user info
+                        mFirebaseDatabase = FirebaseDatabase.getInstance();
+                        mUsersReference = mFirebaseDatabase.getReference().child("users");
+                        mspecificUserRef = mUsersReference.child(uid);
+                        key = mspecificUserRef.getKey();
+                        thisUser = new MyUser(username, email, number, bio, uid, key);
+                        mspecificUserRef.setValue(thisUser);
+                        Toast.makeText(AccountPage.this, "account updated",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("AccountPage"," user does not exist");
+                    }
+                }
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUsersReference = mFirebaseDatabase.getReference().child("users");
-        mspecificUserRef = mUsersReference.child(uid);
-        key = mspecificUserRef.getKey();
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-        mspecificUserRef.setValue(thisUser);
-
-        Toast.makeText(this, "account updated",Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+                }
+            });
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
     }
 }

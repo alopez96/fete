@@ -73,9 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserReference = mFirebaseDatabase.getReference().child("users");
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mUsername = "";
-        mPhone = "707";
-        mBio = "funny";
+
 
         mAuth = FirebaseAuth.getInstance();
 
