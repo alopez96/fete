@@ -1,7 +1,17 @@
 package com.example.arturolopez.fete;
 
 import android.content.Intent;
+<<<<<<< HEAD
 import android.os.Bundle;
+=======
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+>>>>>>> 76fec860b1702cd9f82e5fb57b24273fac6bfce3
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,9 +27,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecifiPartyRef;
     private Party thisParty;
+    private String partyid;
 
     private String imageUrl;
     @Override
@@ -59,6 +74,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        chatButton = findViewById(R.id.chat_btn);
+        eventButton = findViewById(R.id.create_event_btn);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -70,7 +87,6 @@ public class MainActivity extends AppCompatActivity
         Selfie = findViewById(R.id.image_view);
         imageUrl = "https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36";
         Picasso.get().load(imageUrl).into(Selfie);
-
         Selfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,11 +95,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+        getImages();
 
-        chatButton = findViewById(R.id.chat_btn);
-        eventButton = findViewById(R.id.create_event_btn);
-
-
+        chatButton.setVisibility(View.GONE);
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,15 +177,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        getImages();
+
     }
 
-
     private void getImages(){
-
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPartyRef = mFirebaseDatabase.getReference().child("parties");
-
         mPartyRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -190,8 +201,18 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
+//        StorageReference storageRef =
+//                FirebaseStorage.getInstance().getReference();
+//        storageRef.child("parties/"+partyid+"/image.jpg").getDownloadUrl()
+//                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        // Got the download URL for 'users/me/profile.png'
+//                    }
+//                    });
     }
 
 

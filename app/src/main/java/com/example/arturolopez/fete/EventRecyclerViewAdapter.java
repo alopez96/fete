@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -67,7 +69,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        CircleImageView image;
+        ImageView image;
         TextView name;
         TextView date;
         public ViewHolder(View itemView) {
