@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity
         chatButton = findViewById(R.id.chat_btn);
         eventButton = findViewById(R.id.create_event_btn);
 
+
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,8 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             Toast.makeText(MainActivity.this, "chat", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(MainActivity.this, ChatActivity.class);
-            startActivity(i);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
