@@ -22,12 +22,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,7 +53,9 @@ public class MainActivity extends AppCompatActivity
     private Button chatButton;
     private Button eventButton;
     private CircleImageView Selfie;
-    private TextView TV;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mPartyRef, mspecifiPartyRef;
+    private Party thisParty;
 
     private String imageUrl;
     @Override
@@ -163,18 +170,35 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("start", "this is on start method");
-
-        // Write a message to the database
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("message");
-        databaseReference.setValue("Hello, World!");
-
         getImages();
     }
 
 
     private void getImages(){
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mPartyRef = mFirebaseDatabase.getReference().child("parties");
+
+        mPartyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Count " ,""+ dataSnapshot.getChildrenCount());
+                for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
+                    String name = childDataSnapshot.child("address").getValue().toString();
+                    String desc = childDataSnapshot.child("description").getValue().toString();
+                    mDates.add(desc);
+                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+                    mNames.add(name);
+                    initRecyclerView();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
         mDates.add("today at 7pm");
@@ -184,36 +208,6 @@ public class MainActivity extends AppCompatActivity
         mDates.add("tomorrow at 3pm");
         mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
         mNames.add("Title 2");
-
-        mDates.add("Weds at 1pm");
-        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
-        mNames.add("night club at 8pm");
-
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
-        mNames.add("pizza place");
-
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
-        mNames.add("Mahahual");
-
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
-        mNames.add("Frozen Lake");
-        
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
-        mNames.add("White Sands Desert");
-
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
-        mNames.add("Austrailia");
-
-        mDates.add("today at 7pm");
-        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
-        mNames.add("Washington");
-
-        initRecyclerView();
 
     }
 
