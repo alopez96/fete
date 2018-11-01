@@ -5,4 +5,12 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+
+    <style name="Autocomplete">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="android:colorControlHighlight">@color/blue</item>
+    </style>
+
 </resources>
