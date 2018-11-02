@@ -1,6 +1,9 @@
 package com.example.arturolopez.fete;
 
 import android.content.Intent;
+<<<<<<< HEAD
+import android.os.Bundle;
+=======
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+>>>>>>> 76fec860b1702cd9f82e5fb57b24273fac6bfce3
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,8 +25,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +43,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -157,18 +158,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             Toast.makeText(MainActivity.this, "chat", Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_my_parties) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_notifications) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_friends) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_help) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_setting) {
 
         }
 
