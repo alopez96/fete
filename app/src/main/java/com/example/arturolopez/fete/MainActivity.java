@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
     private String partyid;
 
     private String imageUrl;
+    private ArrayList<String> imagesList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity
         //load image for userImage
         Selfie = findViewById(R.id.image_view);
         imageUrl = "https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36";
-        Picasso.get().load(imageUrl).into(Selfie);
+//        Picasso.get().load(imageUrl).into(Selfie);
         Selfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,12 +192,31 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("Count " ,""+ dataSnapshot.getChildrenCount());
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    String name = childDataSnapshot.child("address").getValue().toString();
-                    String date = childDataSnapshot.child("date").getValue().toString();
-                    mDates.add(date);
+                    final String name = childDataSnapshot.child("address").getValue().toString();
+                    final String date = childDataSnapshot.child("date").getValue().toString();
+
 //                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-                    mNames.add(name);
-                    initRecyclerView();
+                    if(childDataSnapshot.child("imageUrl").getValue() != null){
+                        imagesList.add(childDataSnapshot.child("imageUrl").getValue().toString());
+                    }
+                    //get image of parties
+                    for(String key: imagesList){
+                        System.out.println("key: " + key);
+                        StorageReference mStorage = FirebaseStorage.getInstance().getReference();
+                        StorageReference filepath = mStorage.child("parties").child(key);
+                        filepath.getDownloadUrl().addOnSuccessListener(
+                                new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Uri downloadUrl = uri;
+                                        //Do what you want with the url
+                                        mDates.add(date);
+                                        mNames.add(name);
+                                        mImageUrls.add(downloadUrl.toString());
+                                        initRecyclerView();
+                                    }
+                                });
+                    }
                 }
             }
             @Override
@@ -207,53 +227,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        //get image of parties
-        StorageReference mStorage = FirebaseStorage.getInstance().getReference();
-        StorageReference filepath = mStorage.child("test-images").child("-LQFhTox8gkbJyPrwrFK");
 
-        filepath.getDownloadUrl().addOnSuccessListener(
-                new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Uri downloadUrl = uri;
-                        //Do what you want with the url
-                        mImageUrls.add(downloadUrl.toString());
-//                        Picasso.get().load(downloadUrl).into(Selfie);
-                    }
-                });
-
-        /*
-        Task<Uri> myUri;
-        myUri = BOOK_STORAGE_REFERENCE.child(imageURI).getDownloadUrl();
-        myUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                URL myURL;
-
-                try {
-                    myURL = new URL(uri.toString());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
-            }
-        });
-        */
-
-//        StorageReference storageRef =
-//                FirebaseStorage.getInstance().getReference();
-//        storageRef.child("parties/"+partyid+"/image.jpg").getDownloadUrl()
-//                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        // Got the download URL for 'users/me/profile.png'
-//                    }
-//                    });
     }
 
 

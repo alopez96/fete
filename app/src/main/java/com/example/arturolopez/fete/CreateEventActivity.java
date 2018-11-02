@@ -51,7 +51,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private Button Cancel;
     private ImageView EventImageButton;
 
-    private String partyname, date, host, price, address, descr, partyid, imageUrl;
+    private String partyname, date, host, price, address, descr, partyid, imageUrl, placeholderImageUrl;
     private String uid;
 
     private Party thisParty;
@@ -84,8 +84,8 @@ public class CreateEventActivity extends AppCompatActivity {
         Submit = findViewById(R.id.submit_event_tv);
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
-        imageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
-        Picasso.get().load(imageUrl).into(EventImageButton);
+        placeholderImageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
+        Picasso.get().load(placeholderImageUrl).into(EventImageButton);
         EventImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +108,10 @@ public class CreateEventActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mPartyReference = mFirebaseDatabase.getReference().child("parties");
+        partyid = mPartyReference.push().getKey();
     }
 
     public void submitEvent(){
@@ -134,9 +138,6 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 host = dataSnapshot.child("email").getValue().toString();
                 Log.d("host",host);
-                mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mPartyReference = mFirebaseDatabase.getReference().child("parties");
-                partyid = mPartyReference.push().getKey();
                 mspecificPartyRef = mPartyReference.child(partyid);
                 thisParty = new Party(partyname, date, host, price, address, descr, partyid, imageUrl);
                 mspecificPartyRef.setValue(thisParty);
@@ -171,7 +172,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mPartyReference = mFirebaseDatabase.getReference().child("parties");
                 String key = mPartyReference.push().getKey();
-                StorageReference mountainsRef = storageRef.child("parties").child(partyid);
+                imageUrl = key;
+                StorageReference mountainsRef = storageRef.child("parties").child(imageUrl);
                 UploadTask uploadTask = mountainsRef.putBytes(data2);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
