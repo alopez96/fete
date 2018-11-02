@@ -42,6 +42,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:textSize="26dp"
+            android:inputType="textEmailAddress"
             />
 
         <EditText
@@ -51,7 +52,8 @@
             android:hint="number"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:textSize="26dp"/>
+            android:textSize="26dp"
+            android:inputType="phone"/>
 
         <EditText
             android:id="@+id/bio_tv"
@@ -72,6 +74,7 @@
             android:textSize="22dp"
             android:textStyle="normal"
             android:textAllCaps="false"/>
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

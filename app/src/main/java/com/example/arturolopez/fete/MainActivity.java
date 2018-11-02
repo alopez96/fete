@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -37,6 +38,8 @@ import com.squareup.picasso.Picasso;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -180,6 +183,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getImages(){
+        //get adress and date of parties
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPartyRef = mFirebaseDatabase.getReference().child("parties");
         mPartyRef.addValueEventListener(new ValueEventListener() {
@@ -190,7 +194,7 @@ public class MainActivity extends AppCompatActivity
                     String name = childDataSnapshot.child("address").getValue().toString();
                     String date = childDataSnapshot.child("date").getValue().toString();
                     mDates.add(date);
-                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+//                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
                     mNames.add(name);
                     initRecyclerView();
                 }
@@ -202,6 +206,44 @@ public class MainActivity extends AppCompatActivity
         });
 
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
+
+        //get image of parties
+        StorageReference mStorage = FirebaseStorage.getInstance().getReference();
+        StorageReference filepath = mStorage.child("test-images").child("-LQFhTox8gkbJyPrwrFK");
+
+        filepath.getDownloadUrl().addOnSuccessListener(
+                new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Uri downloadUrl = uri;
+                        //Do what you want with the url
+                        mImageUrls.add(downloadUrl.toString());
+//                        Picasso.get().load(downloadUrl).into(Selfie);
+                    }
+                });
+
+        /*
+        Task<Uri> myUri;
+        myUri = BOOK_STORAGE_REFERENCE.child(imageURI).getDownloadUrl();
+        myUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                URL myURL;
+
+                try {
+                    myURL = new URL(uri.toString());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+        */
 
 //        StorageReference storageRef =
 //                FirebaseStorage.getInstance().getReference();
@@ -217,7 +259,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls);

@@ -1,6 +1,7 @@
 package com.example.arturolopez.fete;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +64,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private DatabaseReference mUsersReference;
     private DatabaseReference mspecificUserRef;
     private MyUser thisUser;
+
+    private ProgressDialog pd;
 
     public static final int GET_FROM_GALLERY = 3;
 
@@ -113,6 +117,10 @@ public class CreateEventActivity extends AppCompatActivity {
         address = Address.getText().toString();
         descr = Description.getText().toString();
 
+        pd = new ProgressDialog(CreateEventActivity.this);
+        pd.setMessage("Submitting...");
+        pd.show();
+
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
@@ -132,7 +140,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 mspecificPartyRef = mPartyReference.child(partyid);
                 thisParty = new Party(partyname, date, host, price, address, descr, partyid, imageUrl);
                 mspecificPartyRef.setValue(thisParty);
-
                 Toast.makeText(CreateEventActivity.this, "party created",Toast.LENGTH_SHORT).show();
             }
             @Override
@@ -140,6 +147,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
             }
         });
+        pd.dismiss();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
