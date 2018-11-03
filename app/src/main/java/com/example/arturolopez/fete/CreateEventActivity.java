@@ -190,7 +190,7 @@ public class CreateEventActivity extends AppCompatActivity {
         mspecificUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                host = dataSnapshot.child("email").getValue().toString();
+                host = dataSnapshot.child("username").getValue().toString();
                 Log.d("host",host);
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mPartyReference = mFirebaseDatabase.getReference().child("parties");

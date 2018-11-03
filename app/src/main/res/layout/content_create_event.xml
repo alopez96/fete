@@ -64,7 +64,8 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textSize="26dp"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="number"/>
 
 
             <EditText
@@ -75,7 +76,8 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textSize="26dp"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="textPostalAddress"/>
 
             <EditText
                 android:id="@+id/desc_tv"
