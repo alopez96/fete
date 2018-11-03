@@ -1,5 +1,6 @@
 package com.example.arturolopez.fete;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +49,16 @@ public class SpecificEventActivity extends AppCompatActivity {
         Log.d(TAG, partyid);
 
         getPartyInfo();
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SpecificEventActivity.this, FullImageView.class);
+                i.putExtra("url", imageurl);
+                i.putExtra("type", "image");
+                startActivity(i);
+            }
+        });
     }
 
     private void getPartyInfo(){
