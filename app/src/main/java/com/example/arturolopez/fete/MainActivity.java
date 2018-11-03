@@ -192,7 +192,6 @@ public class MainActivity extends AppCompatActivity
                     final String imageUrl = childDataSnapshot.child("imageUrl").getValue().toString();
                     mDates.add(date);
                     mNames.add(name);
-                    System.out.println("url " + imageUrl);
                     mImageUrls.add(imageUrl);
                 }
                 initRecyclerView();
@@ -208,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void initRecyclerView(){
-        Log.d(TAG, "initRecyclerView: init recyclerview");
+        Log.d(TAG, "MainACtivity: initRecyclerView");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);

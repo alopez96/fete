@@ -85,9 +85,9 @@ public class CreateEventActivity extends AppCompatActivity {
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
 
-        Submit.setEnabled(false);
-        placeholderImageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
-        Picasso.get().load(placeholderImageUrl).into(EventImageButton);
+//        imageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
+        imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
+        Picasso.get().load(imageUrl).into(EventImageButton);
         EventImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +143,6 @@ public class CreateEventActivity extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 EventImageButton.setImageBitmap(bitmap);
-
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] data2 = baos.toByteArray();
@@ -157,7 +156,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        Submit.setEnabled(false);
                         mountainsRef.getDownloadUrl().addOnSuccessListener(
                                 new OnSuccessListener<Uri>() {
                                     @Override
