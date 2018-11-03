@@ -1,6 +1,7 @@
 package com.example.arturolopez.fete;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.arturolopez.fete.Utils.FullImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,13 +28,15 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     private ArrayList<String> mDates;
     private ArrayList<String> mNames;
     private ArrayList<String> mImageUrls;
+    private ArrayList<String> mPartyids;
     private Context mContext;
 
-    public EventRecyclerViewAdapter(Context context, ArrayList<String> dates, ArrayList<String> names, ArrayList<String> imageUrls) {
+    public EventRecyclerViewAdapter(Context context, ArrayList<String> dates, ArrayList<String> names, ArrayList<String> imageUrls, ArrayList<String> partyids) {
         mDates = dates;
         mNames = names;
         mImageUrls = imageUrls;
         mContext = context;
+        mPartyids = partyids;
     }
 
     @Override
@@ -56,10 +60,13 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on an image: " + mNames.get(position));
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: clicked on an image: " + mPartyids.get(position));
+                Toast.makeText(mContext, mPartyids.get(position), Toast.LENGTH_SHORT).show();
             }
         });
+
+        ((ViewHolder) holder).bind(position);
+
     }
 
     @Override
@@ -68,15 +75,38 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView name;
         TextView date;
+
         public ViewHolder(View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date_tv);
             image = itemView.findViewById(R.id.image_view);
             name = itemView.findViewById(R.id.name_tv);
+        }
+
+        void bind(final int position){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("itemView clicked at position " + position);
+                    Intent i = new Intent(mContext, SpecificEventActivity.class);
+                    mContext.startActivity(i);
+//                    v.getContext().startActivity(i);
+                }
+            });
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(mContext, FullImageView.class);
+                    i.putExtra("url", mImageUrls.get(position));
+                    i.putExtra("type", "image");
+                    mContext.startActivity(i);
+                }
+            });
         }
     }
 }

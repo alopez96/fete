@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
-    //vars
     private ArrayList<String> mDates = new ArrayList<>();
+    private ArrayList<String> mPartyids = new ArrayList<>();
 
     private Button chatButton;
     private Button eventButton;
@@ -190,9 +191,11 @@ public class MainActivity extends AppCompatActivity
                     final String name = childDataSnapshot.child("address").getValue().toString();
                     final String date = childDataSnapshot.child("date").getValue().toString();
                     final String imageUrl = childDataSnapshot.child("imageUrl").getValue().toString();
+                    final String partid = childDataSnapshot.child("partyid").getValue().toString();
                     mDates.add(date);
                     mNames.add(name);
                     mImageUrls.add(imageUrl);
+                    mPartyids.add(partid);
                 }
                 initRecyclerView();
 
@@ -211,8 +214,7 @@ public class MainActivity extends AppCompatActivity
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls);
+        EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls, mPartyids);
         recyclerView.setAdapter(adapter);
     }
-
 }
