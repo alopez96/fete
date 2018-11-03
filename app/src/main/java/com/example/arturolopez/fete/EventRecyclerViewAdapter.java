@@ -93,8 +93,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                 public void onClick(View v) {
                     System.out.println("itemView clicked at position " + position);
                     Intent i = new Intent(mContext, SpecificEventActivity.class);
+                    i.putExtra("partyid", mPartyids.get(position));
                     mContext.startActivity(i);
-//                    v.getContext().startActivity(i);
                 }
             });
 
