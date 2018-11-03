@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
-
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private String partyid;
 
     private String imageUrl;
-    private ArrayList<String> imagesList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,7 +176,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     private void getImages(){
@@ -193,16 +189,14 @@ public class MainActivity extends AppCompatActivity
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
                     final String name = childDataSnapshot.child("address").getValue().toString();
                     final String date = childDataSnapshot.child("date").getValue().toString();
+                    final String imageUrl = childDataSnapshot.child("imageUrl").getValue().toString();
                     mDates.add(date);
                     mNames.add(name);
-                    System.out.println("getImages");
-//                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-                    if(childDataSnapshot.child("imageUrl").getValue() != null){
-                        imagesList.add(childDataSnapshot.child("imageUrl").getValue().toString());
-                        System.out.println("getImages2");
-                    }
+                    System.out.println("url " + imageUrl);
+                    mImageUrls.add(imageUrl);
                 }
-                setImage();
+                initRecyclerView();
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -222,24 +216,4 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
-    private void setImage(){
-        //get image of parties
-        System.out.println("setImages");
-        for(String key: imagesList){
-            System.out.println("key: " + key);
-            StorageReference mStorage = FirebaseStorage.getInstance().getReference();
-            StorageReference filepath = mStorage.child("parties").child(key);
-            filepath.getDownloadUrl().addOnSuccessListener(
-                    new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Uri downloadUrl = uri;
-                            System.out.println("setImages");
-                            mImageUrls.add(downloadUrl.toString());
-                            initRecyclerView();
-                        }
-                    });
-        }
-        System.out.println("imageList size " + imagesList.size());
-    }
 }

@@ -64,7 +64,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private DatabaseReference mUsersReference;
     private DatabaseReference mspecificUserRef;
     private MyUser thisUser;
-
+    private StorageReference mountainsRef;
     private ProgressDialog pd;
 
     public static final int GET_FROM_GALLERY = 3;
@@ -84,6 +84,8 @@ public class CreateEventActivity extends AppCompatActivity {
         Submit = findViewById(R.id.submit_event_tv);
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
+
+        Submit.setEnabled(false);
         placeholderImageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
         Picasso.get().load(placeholderImageUrl).into(EventImageButton);
         EventImageButton.setOnClickListener(new View.OnClickListener() {
@@ -120,37 +122,15 @@ public class CreateEventActivity extends AppCompatActivity {
         date = PartyDate.getText().toString();
         address = Address.getText().toString();
         descr = Description.getText().toString();
-
         pd = new ProgressDialog(CreateEventActivity.this);
         pd.setMessage("Submitting...");
         pd.show();
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             uid = currentUser.getUid();
         }
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUsersReference = mFirebaseDatabase.getReference().child("users");
-        mspecificUserRef = mUsersReference.child(uid);
-        mspecificUserRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                host = dataSnapshot.child("email").getValue().toString();
-                Log.d("host",host);
-                mspecificPartyRef = mPartyReference.child(partyid);
-                thisParty = new Party(partyname, date, host, price, address, descr, partyid, imageUrl);
-                mspecificPartyRef.setValue(thisParty);
-                Toast.makeText(CreateEventActivity.this, "party created",Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        pd.dismiss();
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+        pushToFirebase();
     }
 
     @Override
@@ -172,18 +152,26 @@ public class CreateEventActivity extends AppCompatActivity {
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mPartyReference = mFirebaseDatabase.getReference().child("parties");
                 String key = mPartyReference.push().getKey();
-                imageUrl = key;
-                StorageReference mountainsRef = storageRef.child("parties").child(imageUrl);
+                mountainsRef = storageRef.child("parties").child(key);
                 UploadTask uploadTask = mountainsRef.putBytes(data2);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        mountainsRef.getDownloadUrl().addOnSuccessListener(
+                                new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        System.out.println("uri " + uri.toString());
+                                        imageUrl = uri.toString();
+                                        Submit.setEnabled(true);
+                                        System.out.println("Submit Button enabled");
+                                    }
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any errors
+                                        Log.e("Eventctivity Exception", exception.toString());
+                                    }
+                                });
                     }
                 });
             } catch (FileNotFoundException e) {
@@ -194,6 +182,36 @@ public class CreateEventActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void pushToFirebase(){
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsersReference = mFirebaseDatabase.getReference().child("users");
+        mspecificUserRef = mUsersReference.child(uid);
+        mspecificUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                host = dataSnapshot.child("email").getValue().toString();
+                Log.d("host",host);
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mPartyReference = mFirebaseDatabase.getReference().child("parties");
+                partyid = mPartyReference.push().getKey();
+                mspecificPartyRef = mPartyReference.child(partyid);
+                if(imageUrl != null){
+                    thisParty = new Party(partyname, date, host, price, address, descr, partyid, imageUrl);
+                    mspecificPartyRef.setValue(thisParty);
+                    pd.dismiss();
+                    Intent i = new Intent(CreateEventActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+
+                Toast.makeText(CreateEventActivity.this, "party created",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }
