@@ -1,9 +1,7 @@
 package com.example.arturolopez.fete;
 
 import android.content.Intent;
-<<<<<<< HEAD
 import android.os.Bundle;
-=======
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
->>>>>>> 76fec860b1702cd9f82e5fb57b24273fac6bfce3
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -99,7 +96,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-        getImages();
 
         chatButton.setVisibility(View.GONE);
         chatButton.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +114,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        getImages();
     }
 
     @Override
@@ -195,40 +193,23 @@ public class MainActivity extends AppCompatActivity
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
                     final String name = childDataSnapshot.child("address").getValue().toString();
                     final String date = childDataSnapshot.child("date").getValue().toString();
-
+                    mDates.add(date);
+                    mNames.add(name);
+                    System.out.println("getImages");
 //                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
                     if(childDataSnapshot.child("imageUrl").getValue() != null){
                         imagesList.add(childDataSnapshot.child("imageUrl").getValue().toString());
-                    }
-                    //get image of parties
-                    for(String key: imagesList){
-                        System.out.println("key: " + key);
-                        StorageReference mStorage = FirebaseStorage.getInstance().getReference();
-                        StorageReference filepath = mStorage.child("parties").child(key);
-                        filepath.getDownloadUrl().addOnSuccessListener(
-                                new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        Uri downloadUrl = uri;
-                                        //Do what you want with the url
-                                        mDates.add(date);
-                                        mNames.add(name);
-                                        mImageUrls.add(downloadUrl.toString());
-                                        initRecyclerView();
-                                    }
-                                });
+                        System.out.println("getImages2");
                     }
                 }
+                setImage();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-
     }
 
 
@@ -239,5 +220,26 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setImage(){
+        //get image of parties
+        System.out.println("setImages");
+        for(String key: imagesList){
+            System.out.println("key: " + key);
+            StorageReference mStorage = FirebaseStorage.getInstance().getReference();
+            StorageReference filepath = mStorage.child("parties").child(key);
+            filepath.getDownloadUrl().addOnSuccessListener(
+                    new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri downloadUrl = uri;
+                            System.out.println("setImages");
+                            mImageUrls.add(downloadUrl.toString());
+                            initRecyclerView();
+                        }
+                    });
+        }
+        System.out.println("imageList size " + imagesList.size());
     }
 }
