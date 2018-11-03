@@ -5,16 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.arturolopez.fete.Utils.FullImageView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class SpecificEventActivity extends AppCompatActivity {
 
@@ -26,12 +31,17 @@ public class SpecificEventActivity extends AppCompatActivity {
     private TextView addressTV;
     private TextView priceTV;
     private TextView descTV;
+    private Button joinButton;
 
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mPartyRef, mspecifiPartyRef;
+    private DatabaseReference mPartyRef, mspecificPartyRef;
+
+    private DatabaseReference mUserRef, mspecificUserRef;
 
     private Party thisParty;
     private String name, date, hostname, price, address, desc, imageurl, partyid;
+
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,7 @@ public class SpecificEventActivity extends AppCompatActivity {
         addressTV = findViewById(R.id.address_tv);
         priceTV = findViewById(R.id.price_tv);
         descTV  = findViewById(R.id.desc_tv);
+        joinButton = findViewById(R.id.join_btn);
 
         partyid = getIntent().getStringExtra("partyid");
         Log.d(TAG, partyid);
@@ -59,14 +70,21 @@ public class SpecificEventActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addParty();
+            }
+        });
     }
 
     private void getPartyInfo(){
         //get adress and date of parties
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPartyRef = mFirebaseDatabase.getReference().child("parties");
-        mspecifiPartyRef = mPartyRef.child(partyid);
-        mspecifiPartyRef.addValueEventListener(new ValueEventListener() {
+        mspecificPartyRef = mPartyRef.child(partyid);
+        mspecificPartyRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 thisParty = dataSnapshot.getValue(Party.class);
@@ -120,5 +138,17 @@ public class SpecificEventActivity extends AppCompatActivity {
             descTV.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    private void addParty(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            //user is signed in
+            uid = user.getUid();
+        }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserRef = mFirebaseDatabase.getReference().child("users");
+        mspecificUserRef = mUserRef.child(uid);
+        mspecificUserRef.child("parties").child("1").setValue(partyid);
     }
 }
