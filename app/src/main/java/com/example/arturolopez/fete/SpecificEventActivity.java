@@ -149,6 +149,6 @@ public class SpecificEventActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
-        mspecificUserRef.child("parties").child("1").setValue(partyid);
+        mspecificUserRef.child("parties").child(partyid).setValue("true");
     }
 }

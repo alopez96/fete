@@ -96,14 +96,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         chatButton.setVisibility(View.GONE);
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(MainActivity.this, ChatActivity.class);
-                startActivity(i);
-            }
-        });
+
 
         eventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,9 +148,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Toast.makeText(MainActivity.this, "chat", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_my_parties) {
+            Intent i = new Intent(MainActivity.this, MyPartiesActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_notifications) {
 

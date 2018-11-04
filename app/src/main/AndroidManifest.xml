@@ -36,9 +36,9 @@
             android:name=".SignUpActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SpecificEventActivity"></activity>
-
+        <activity android:name=".SpecificEventActivity" />
         <activity android:name=".Utils.FullImageView" />
+        <activity android:name=".MyPartiesActivity"></activity>
     </application>
 
 </manifest>
