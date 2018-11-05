@@ -55,12 +55,10 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> mDates = new ArrayList<>();
     private ArrayList<String> mPartyids = new ArrayList<>();
 
-    private Button chatButton;
     private Button eventButton;
     private CircleImageView Selfie;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecifiPartyRef;
-    private Party thisParty;
     private String partyid;
 
     private String imageUrl;
@@ -73,7 +71,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        chatButton = findViewById(R.id.chat_btn);
         eventButton = findViewById(R.id.create_event_btn);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -94,9 +91,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-
-        chatButton.setVisibility(View.GONE);
-
 
         eventButton.setOnClickListener(new View.OnClickListener() {
             @Override
