@@ -1,9 +1,7 @@
 package com.example.arturolopez.fete;
 
 import android.content.Intent;
-<<<<<<< HEAD
 import android.os.Bundle;
-=======
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
->>>>>>> 76fec860b1702cd9f82e5fb57b24273fac6bfce3
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
