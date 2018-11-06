@@ -91,7 +91,6 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
                 mContext.startActivity(i);
             }
         });
-
     }
 
     @Override
