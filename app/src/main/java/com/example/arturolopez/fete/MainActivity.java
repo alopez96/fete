@@ -24,8 +24,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -36,6 +38,8 @@ import com.squareup.picasso.Picasso;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,24 +49,20 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
-
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
-    //vars
     private ArrayList<String> mDates = new ArrayList<>();
+    private ArrayList<String> mPartyids = new ArrayList<>();
 
-    private Button chatButton;
     private Button eventButton;
     private CircleImageView Selfie;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecifiPartyRef;
-    private Party thisParty;
     private String partyid;
 
     private String imageUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        chatButton = findViewById(R.id.chat_btn);
         eventButton = findViewById(R.id.create_event_btn);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -83,23 +82,12 @@ public class MainActivity extends AppCompatActivity
         //load image for userImage
         Selfie = findViewById(R.id.image_view);
         imageUrl = "https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36";
-        Picasso.get().load(imageUrl).into(Selfie);
+//        Picasso.get().load(imageUrl).into(Selfie);
         Selfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "account page", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, AccountPage.class);
-                startActivity(i);
-            }
-        });
-        getImages();
-
-        chatButton.setVisibility(View.GONE);
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(MainActivity.this, ChatActivity.class);
                 startActivity(i);
             }
         });
@@ -111,6 +99,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        getImages();
     }
 
     @Override
@@ -152,9 +142,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Toast.makeText(MainActivity.this, "chat", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_my_parties) {
+            Intent i = new Intent(MainActivity.this, MyPartiesActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_notifications) {
 
@@ -174,10 +165,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     private void getImages(){
+        //get adress and date of parties
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPartyRef = mFirebaseDatabase.getReference().child("parties");
         mPartyRef.addValueEventListener(new ValueEventListener() {
@@ -185,40 +176,33 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("Count " ,""+ dataSnapshot.getChildrenCount());
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    String name = childDataSnapshot.child("address").getValue().toString();
-                    String date = childDataSnapshot.child("date").getValue().toString();
+                    final String name = childDataSnapshot.child("address").getValue().toString();
+                    final String date = childDataSnapshot.child("date").getValue().toString();
+                    final String imageUrl = childDataSnapshot.child("imageUrl").getValue().toString();
+                    final String partid = childDataSnapshot.child("partyid").getValue().toString();
                     mDates.add(date);
-                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
                     mNames.add(name);
-                    initRecyclerView();
+                    mImageUrls.add(imageUrl);
+                    mPartyids.add(partid);
                 }
+                initRecyclerView();
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-//        StorageReference storageRef =
-//                FirebaseStorage.getInstance().getReference();
-//        storageRef.child("parties/"+partyid+"/image.jpg").getDownloadUrl()
-//                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        // Got the download URL for 'users/me/profile.png'
-//                    }
-//                    });
     }
 
 
     private void initRecyclerView(){
-        Log.d(TAG, "initRecyclerView: init recyclerview");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        Log.d(TAG, "MainACtivity: initRecyclerView");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls);
+        EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls, mPartyids);
         recyclerView.setAdapter(adapter);
     }
 }
