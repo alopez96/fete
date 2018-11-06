@@ -14,6 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,6 +31,30 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private Context mContext;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mPatyRef, mspecificPartyRef;
+
+    public void load(ArrayList<String> mPartyIds){
+        Log.d(TAG,"partyList " + mPartyIds);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mPatyRef = mFirebaseDatabase.getReference().child("parties");
+        for(String partyid : mPartyIds){
+            Log.d(TAG,"partyid " + partyid);
+            mspecificPartyRef = mPatyRef.child(partyid);
+            mspecificPartyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG,"child hostname " + dataSnapshot.child("hostName").getValue());
+                mImages.add(dataSnapshot.child("imageUrl").getValue().toString());
+                mImageNames.add(dataSnapshot.child("hostName").getValue().toString());
+                notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+        }
+    }
 
     public MyPartiesRecyclerViewAdapter(ArrayList<String> mImageNames, ArrayList<String> mImages, Context mContext) {
         this.mImageNames = mImageNames;
@@ -42,7 +73,6 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
     @Override
     public void onBindViewHolder(MyPartiesViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
-
         Glide.with(mContext)
                 .asBitmap()
                 .load(mImages.get(position))

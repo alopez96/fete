@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -150,5 +151,8 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
+        Toast.makeText(this, "You have joined party",Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
+        startActivity(i);
     }
 }
