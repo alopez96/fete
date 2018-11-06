@@ -30,6 +30,7 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
 
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<String> mPartyids = new ArrayList<>();
     private Context mContext;
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -37,6 +38,7 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
 
     public void load(ArrayList<String> mPartyIds){
         Log.d(TAG,"partyList " + mPartyIds);
+        mPartyids = mPartyIds;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPatyRef = mFirebaseDatabase.getReference().child("parties");
         for(String partyid : mPartyIds){
@@ -83,9 +85,10 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
-
-                Toast.makeText(mContext, mImageNames.get(position), Toast.LENGTH_SHORT).show();
+                System.out.println(TAG + ": clicked on position " + position);
+                Intent i = new Intent(mContext, SpecificEventActivity.class);
+                i.putExtra("partyid", mPartyids.get(position));
+                mContext.startActivity(i);
             }
         });
 
