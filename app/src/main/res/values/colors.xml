@@ -19,5 +19,8 @@
     <color name="secondary_text">#727272</color>
     <color name="divider_color">#B6B6B6</color>
 
+    <!--Button colors-->
+    <color name="dark_red">#B20000</color>
+    <color name="light_red">#ff3232</color>
 
 </resources>
