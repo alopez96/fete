@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,7 @@ public class SpecificEventActivity extends AppCompatActivity {
     private TextView priceTV;
     private TextView descTV;
     private Button joinButton;
+    private Button leaveButton;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecificPartyRef;
@@ -55,6 +57,7 @@ public class SpecificEventActivity extends AppCompatActivity {
         priceTV = findViewById(R.id.price_tv);
         descTV  = findViewById(R.id.desc_tv);
         joinButton = findViewById(R.id.join_btn);
+        leaveButton = findViewById(R.id.leave_btn);
 
         partyid = getIntent().getStringExtra("partyid");
         Log.d(TAG, partyid);
@@ -75,6 +78,14 @@ public class SpecificEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addParty();
+            }
+        });
+
+        leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                removeParty();
+                Toast.makeText(SpecificEventActivity.this,"this button is not working yet",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -150,5 +161,21 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
+        Toast.makeText(this, "You have joined party",Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
+        startActivity(i);
+    }
+
+    private void removeParty(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            //user is signed in
+            uid = user.getUid();
+        }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserRef = mFirebaseDatabase.getReference().child("users");
+        mspecificUserRef = mUserRef.child(uid);
+        mspecificUserRef.child("parties").child(partyid).removeValue();
+        System.out.println("removed from MyParties");
     }
 }

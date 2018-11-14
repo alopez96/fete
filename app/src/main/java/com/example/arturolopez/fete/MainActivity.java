@@ -186,7 +186,6 @@ public class MainActivity extends AppCompatActivity
                     mPartyids.add(partid);
                 }
                 initRecyclerView();
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
