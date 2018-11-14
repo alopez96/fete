@@ -12,29 +12,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <Button
             android:id="@+id/create_event_btn"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
             android:text="Create event"
             android:textAllCaps="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:textColor="#fff"
-            android:background="@color/colorPrimary"
-            />
+            android:textColor="#fff" />
 
         <android.support.v7.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/recyclerView"
+            android:layout_width="365dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            >
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
         </android.support.v7.widget.RecyclerView>
 
