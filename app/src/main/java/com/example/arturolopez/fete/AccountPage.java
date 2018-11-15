@@ -91,7 +91,6 @@ public class AccountPage extends AppCompatActivity {
                 if(thisUser.bio != null) {
                     bioText.setText(thisUser.bio);
                 }
-
             }
 
             @Override
@@ -109,7 +108,7 @@ public class AccountPage extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null) {
+        if(user != null){
             //user is signed in
             uid = user.getUid();
             //get email, to make sure it doesn't change

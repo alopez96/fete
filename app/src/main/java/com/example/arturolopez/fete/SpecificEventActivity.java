@@ -60,7 +60,7 @@ public class SpecificEventActivity extends AppCompatActivity {
         leaveButton = findViewById(R.id.leave_btn);
 
         partyid = getIntent().getStringExtra("partyid");
-        Log.d(TAG, partyid);
+        Log.d(TAG,"partyid " + partyid);
 
         getPartyInfo();
 
@@ -84,8 +84,17 @@ public class SpecificEventActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                removeParty();
-                Toast.makeText(SpecificEventActivity.this,"this button is not working yet",Toast.LENGTH_SHORT).show();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user != null) {
+                    //user is signed in
+                    uid = user.getUid();
+                }
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mUserRef = mFirebaseDatabase.getReference().child("users");
+                mspecificUserRef = mUserRef.child(uid);
+                Log.d(TAG,"uid2: " + uid);
+                Log.d(TAG,"partyid2: " + partyid);
+                mspecificUserRef.child("parties").child(partyid).removeValue();
             }
         });
     }
