@@ -1,6 +1,7 @@
 package com.example.arturolopez.fete;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class SpecificEventActivity extends AppCompatActivity {
 
@@ -95,6 +98,37 @@ public class SpecificEventActivity extends AppCompatActivity {
                 Log.d(TAG,"uid2: " + uid);
                 Log.d(TAG,"partyid2: " + partyid);
                 mspecificUserRef.child("parties").child(partyid).removeValue();
+                Toast.makeText(SpecificEventActivity.this, "You have left party!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            //user is signed in
+            uid = user.getUid();
+        }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserRef = mFirebaseDatabase.getReference().child("users");
+        mspecificUserRef = mUserRef.child(uid);
+        mspecificUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot childData : dataSnapshot.getChildren()){
+                    for(DataSnapshot children : childData.getChildren()){
+                        String key = children.getKey();
+                        Log.d(TAG, "key " + key);
+                        boolean exists = Objects.equals(partyid, key);
+                        if(exists){
+                            Log.d(TAG, "exists");
+                            joinButton.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -170,9 +204,7 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
-        Toast.makeText(this, "You have joined party",Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
-        startActivity(i);
+        Toast.makeText(this, "You have joined this party!",Toast.LENGTH_SHORT).show();
     }
 
     private void removeParty(){
