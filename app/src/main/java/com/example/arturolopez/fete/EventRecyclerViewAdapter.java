@@ -101,9 +101,9 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(mContext, FullImageView.class);
-                    i.putExtra("url", mImageUrls.get(position));
-                    i.putExtra("type", "image");
+                    System.out.println("itemView clicked at position " + position);
+                    Intent i = new Intent(mContext, SpecificEventActivity.class);
+                    i.putExtra("partyid", mPartyids.get(position));
                     mContext.startActivity(i);
                 }
             });
