@@ -151,6 +151,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_friends) {
 
+        } else if (id == R.id.nav_messages) {
+            Intent i = new Intent(MainActivity.this, ChatActivity.class);
+            startActivity(i);
+
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_setting) {
