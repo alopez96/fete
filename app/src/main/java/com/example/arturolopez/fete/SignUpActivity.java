@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
     private URL imageURL;
 
     public static final int RC_SIGN_IN = 1;     ///request code
-    public static final String TAG = "tag";     ///request code
+    public static final String TAG = "SignUpActivity";     ///request code
     public static final int accessToken = 100;     ///request code
 
     @Override
@@ -51,20 +51,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         //Get Firebase auth instance
 
-        btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
         btnSignUp = (Button) findViewById(R.id.email_register_button);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.signup_progress);
-       // btnResetPassword = (Button) findViewById(R.id.forgot_password);
-
-//        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
-//            }
-//        });
-
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

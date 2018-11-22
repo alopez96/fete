@@ -48,6 +48,7 @@ public class SpecificEventActivity extends AppCompatActivity {
 
     private String uid;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +63,25 @@ public class SpecificEventActivity extends AppCompatActivity {
         joinButton = findViewById(R.id.join_btn);
         leaveButton = findViewById(R.id.leave_btn);
 
+        String partyBoolean;
+        boolean partyJoinedTrue;
         partyid = getIntent().getStringExtra("partyid");
+        partyBoolean = getIntent().getStringExtra("partyBoolean");
         Log.d(TAG,"partyid " + partyid);
+        Log.d(TAG,"partyBoolean " + partyBoolean);
+
+        partyJoinedTrue = false;
+        if(partyBoolean != null){
+            partyJoinedTrue = Objects.equals("true", partyBoolean);
+            if(partyJoinedTrue){
+                Log.d(TAG,"you have joined this party.");
+                joinButton.setVisibility(View.GONE);
+            }
+            else{
+                Log.d(TAG,"you have NOT joined this party.");
+                leaveButton.setVisibility(View.GONE);
+            }
+        }
 
         getPartyInfo();
 
@@ -101,37 +119,15 @@ public class SpecificEventActivity extends AppCompatActivity {
                 Toast.makeText(SpecificEventActivity.this, "You have left party!",Toast.LENGTH_SHORT).show();
             }
         });
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null) {
-            //user is signed in
-            uid = user.getUid();
-        }
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUserRef = mFirebaseDatabase.getReference().child("users");
-        mspecificUserRef = mUserRef.child(uid);
-        mspecificUserRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot childData : dataSnapshot.getChildren()){
-                    for(DataSnapshot children : childData.getChildren()){
-                        String key = children.getKey();
-                        Log.d(TAG, "key " + key);
-                        boolean exists = Objects.equals(partyid, key);
-                        if(exists){
-                            Log.d(TAG, "exists");
-                            joinButton.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+
 
     private void getPartyInfo(){
         //get adress and date of parties
