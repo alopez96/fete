@@ -28,6 +28,7 @@ import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -127,6 +128,12 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //sign out
+        FirebaseAuth.getInstance().signOut();
+        Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(i);
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -190,7 +197,6 @@ public class MainActivity extends AppCompatActivity
                     mPartyids.add(partid);
                 }
                 initRecyclerView();
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
