@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MyPartiesActivity">
 
+    <TextView
+        android:id="@+id/no_parties_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You have not joined any parties :("
+        android:textColor="#000"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:paddingTop="100dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:gravity="center"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerv_view"
         android:layout_width="match_parent"

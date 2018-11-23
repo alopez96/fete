@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -42,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,6 +65,12 @@ public class MainActivity extends AppCompatActivity
     private String partyid;
 
     private String imageUrl;
+
+
+    private DatabaseReference mUserRef, mspecificUserRef;
+
+    private String uid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         getImages();
+
     }
 
     @Override
@@ -123,9 +132,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //sign out
@@ -176,6 +182,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        initRecyclerView();
     }
 
     private void getImages(){
@@ -215,4 +222,5 @@ public class MainActivity extends AppCompatActivity
         EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls, mPartyids);
         recyclerView.setAdapter(adapter);
     }
+
 }

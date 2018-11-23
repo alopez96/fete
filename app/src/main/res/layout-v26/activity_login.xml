@@ -56,7 +56,7 @@
                 android:layout_marginTop="40dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/email_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/password_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
@@ -93,7 +93,7 @@
 
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/login_btn"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,16 +106,6 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:textAlignment="center"
-                android:text="@string/forgot_password"
-                android:textColor="@color/white"
-                />
 
 
             <ImageView
@@ -132,7 +122,7 @@
 
 
             <Button
-                android:id="@+id/create_new_account"
+                android:id="@+id/sign_up_btn"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,19 +134,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-
-            <Button
-                android:id="@+id/login_using_facebook"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_using_facebook"
-                android:textColor="@color/white"
-                android:background="@color/facebook_color"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
         </LinearLayout>
     </ScrollView>
