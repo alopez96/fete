@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> mDates = new ArrayList<>();
     private ArrayList<String> mPartyids = new ArrayList<>();
 
-    private Button eventButton;
     private CircleImageView Selfie;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecifiPartyRef;
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        eventButton = findViewById(R.id.create_event_btn);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -101,13 +99,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        eventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivity(i);
-            }
-        });
 
         getImages();
 
@@ -134,14 +125,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //sign out
-        FirebaseAuth.getInstance().signOut();
-        Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        // Create a new Party
+        Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
         startActivity(i);
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.create_event_btn) {
             return true;
         }
 
@@ -164,9 +153,21 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_friends) {
 
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_messages) {
+            Intent i = new Intent(MainActivity.this, ChatActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_setting) {
+        } else if (id == R.id.action_settings) {
+            //sign out
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+
+            //noinspection SimplifiableIfStatement
+           // if (id == R.id.action_settings) {
+                //return true;
+            //}
 
         }
 
