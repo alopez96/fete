@@ -88,8 +88,6 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                progressBar.setVisibility(View.VISIBLE);
                 //create user
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -112,11 +110,10 @@ public class SignUpActivity extends AppCompatActivity {
                                         //go to next page
                                         Intent main = new Intent(SignUpActivity.this, MainActivity.class);
                                         startActivity(main);
+                                        progressBar.setVisibility(View.VISIBLE);
                                     }
                                     else {
-                                        //go back to login
-                                        Intent login = new Intent(SignUpActivity.this, LoginActivity.class);
-                                        startActivity(login);
+                                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
 
