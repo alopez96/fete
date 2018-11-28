@@ -37,6 +37,7 @@ public class SpecificEventActivity extends AppCompatActivity {
     private TextView descTV;
     private Button joinButton;
     private Button leaveButton;
+    private Button payButton;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecificPartyRef;
@@ -62,6 +63,7 @@ public class SpecificEventActivity extends AppCompatActivity {
         descTV  = findViewById(R.id.desc_tv);
         joinButton = findViewById(R.id.join_btn);
         leaveButton = findViewById(R.id.leave_btn);
+        payButton = findViewById(R.id.payment_btn);
 
         String partyBoolean;
         boolean partyJoinedTrue;
@@ -117,6 +119,14 @@ public class SpecificEventActivity extends AppCompatActivity {
                 Log.d(TAG,"partyid2: " + partyid);
                 mspecificUserRef.child("parties").child(partyid).removeValue();
                 Toast.makeText(SpecificEventActivity.this, "You have left party!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SpecificEventActivity.this, PaymentActivity.class);
+                startActivity(i);
             }
         });
     }
