@@ -168,10 +168,6 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, ChatActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_help) {
-
-        } else if (id == R.id.nav_setting) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
