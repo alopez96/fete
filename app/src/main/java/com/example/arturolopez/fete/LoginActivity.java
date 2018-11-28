@@ -75,7 +75,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // UI references.
     private AutoCompleteTextView emailTV;
     private EditText passwordTV;
-    private Button loginInButton, signUpButton;
+    private Button googleloginInButton, signUpButton, loginButton;
+    private String email, password;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth firebaseAuth;
@@ -89,16 +90,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         emailTV = findViewById(R.id.email_tv);
         passwordTV = findViewById(R.id.password_tv);
-        loginInButton = findViewById(R.id.login_btn);
+        googleloginInButton = findViewById(R.id.google_btn);
         signUpButton = findViewById(R.id.sign_up_btn);
+        loginButton = findViewById(R.id.login_btn);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-
-        loginInButton.setOnClickListener(new OnClickListener() {
+        googleloginInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"login btn");
                 signIn();
             }
         });
@@ -110,6 +111,49 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 startActivity(i);
             }
         });
+
+
+        loginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = emailTV.getText().toString();
+                password = passwordTV.getText().toString();
+                if(isEmailValid(email) && email != null
+                        && isPasswordValid(password) && password != null){
+                    System.out.println("email and password valid");
+                    System.out.println(email);
+                    System.out.println(password);
+                    mAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "signInWithEmail:success");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Toast.makeText(LoginActivity.this, "Successfully signed in.",
+                                                Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(i);
+                                        finish();
+
+                                    } else {
+                                        Log.d(TAG, "signInWithEmail:failed");
+                                        Toast.makeText(LoginActivity.this, "Invalid email or password.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                }
+                else {
+                    Toast.makeText(LoginActivity.this,"email or password invalid",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -124,6 +168,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+    }
+
+    private void authFailed() {
     }
 
     @Override

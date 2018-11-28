@@ -89,7 +89,6 @@
                     android:imeActionId="6"
                     android:textColor="@color/white"
                     android:theme="@style/Autocomplete"
-                    android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -99,12 +98,27 @@
             </android.support.design.widget.TextInputLayout>
 
 
+
             <Button
                 android:id="@+id/login_btn"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_sign_in_short"
+                android:textColor="@color/white"
+                android:background="@color/dark_green"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/google_btn"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_sign_in_google"
                 android:textColor="@color/white"
                 android:background="@color/dark_green"
                 android:layout_marginTop="10dp"
