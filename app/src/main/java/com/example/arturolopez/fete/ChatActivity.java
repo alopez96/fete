@@ -63,17 +63,16 @@ public class ChatActivity extends AppCompatActivity {
     private Button mSendButton;
 
     private String mUsername;
+    private String partyid;
 
     //Firebase instance variables
     private FirebaseDatabase mFirebaseDatabase;             //entry point for our app to access the database
     private DatabaseReference mMessagesDatabaseReference;   //references a specific part of the database
     private ChildEventListener mChildEventListener;
-    private FirebaseAuth mAuth;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private DatabaseReference mPartyRef;
+
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseAuth mFirebaseAuth;
-
-
 
 
     @Override
@@ -85,18 +84,11 @@ public class ChatActivity extends AppCompatActivity {
 
         mUsername = ANONYMOUS;
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("Chat");
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-
-        Log.d(TAG,"onCreate");
-
-
         //initialize Firebase components
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("Chat");
+        mPartyRef = mFirebaseDatabase.getReference().child("parties");
 
         // Initialize references to views
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -165,7 +157,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         };
-
         attachDatabaseReadListener();
     }
 

@@ -94,7 +94,7 @@ public class SpecificEventActivity extends AppCompatActivity {
                 Intent i = new Intent(SpecificEventActivity.this, ChatActivity.class);
                 Log.d(TAG, partyid);
                 if(partyid != null){
-                    i.putExtra("paryid", partyid);
+                    i.putExtra("partyid", partyid);
                     startActivity(i);
                 }
             }

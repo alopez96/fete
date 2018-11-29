@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyPartiesRecyclerViewAdapter.MyPartiesViewHolder> {
+public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecyclerViewAdapter.FriendsViewHolder> {
 
     private static final String TAG = "MyPartiesRecyclerViewAd";
 
@@ -36,30 +34,31 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPatyRef, mspecificPartyRef;
 
-    public void load(ArrayList<String> mPartyIds){
-        Log.d(TAG,"partyList " + mPartyIds);
-        mPartyids = mPartyIds;
+
+    public void loadFriends(ArrayList<String> mFriendsIds){
+        Log.d(TAG,"friendsList " + mFriendsIds);
+        mPartyids = mFriendsIds;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mPatyRef = mFirebaseDatabase.getReference().child("parties");
-        for(String partyid : mPartyIds){
-            Log.d(TAG,"partyid " + partyid);
-            mspecificPartyRef = mPatyRef.child(partyid);
+        mPatyRef = mFirebaseDatabase.getReference().child("users");
+        for(String friendid : mFriendsIds){
+            Log.d(TAG,"friendid " + friendid);
+            mspecificPartyRef = mPatyRef.child(friendid);
             mspecificPartyRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG,"child hostname " + dataSnapshot.child("hostName").getValue());
-                mImages.add(dataSnapshot.child("imageUrl").getValue().toString());
-                mImageNames.add(dataSnapshot.child("hostName").getValue().toString());
-                notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(TAG,"child hostname " + dataSnapshot.child("hostName").getValue());
+                    mImages.add("https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36");
+                    mImageNames.add(dataSnapshot.child("email").getValue().toString());
+                    notifyDataSetChanged();
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
         }
     }
 
 
-    public MyPartiesRecyclerViewAdapter(ArrayList<String> mImageNames, ArrayList<String> mImages, Context mContext) {
+    public FriendsRecyclerViewAdapter(ArrayList<String> mImageNames, ArrayList<String> mImages, Context mContext) {
         this.mImageNames = mImageNames;
         this.mImages = mImages;
         this.mContext = mContext;
@@ -67,14 +66,14 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
 
     @NonNull
     @Override
-    public MyPartiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_my_parties, parent, false);
-        MyPartiesViewHolder holder = new MyPartiesViewHolder(view);
+    public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_my_friends, parent, false);
+        FriendsViewHolder holder = new FriendsViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MyPartiesViewHolder holder, final int position) {
+    public void onBindViewHolder(FriendsViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
         Glide.with(mContext)
                 .asBitmap()
@@ -86,10 +85,7 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(TAG + ": clicked on position " + position);
-                Intent i = new Intent(mContext, SpecificEventActivity.class);
-                i.putExtra("partyid", mPartyids.get(position));
-                mContext.startActivity(i);
+                Log.d(TAG,"partyid " + mPartyids.get(position));
             }
         });
     }
@@ -99,13 +95,13 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
         return mImageNames.size();
     }
 
-    public class MyPartiesViewHolder extends RecyclerView.ViewHolder{
+    public class FriendsViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
         TextView name;
         RelativeLayout parentLayout;
 
-        public MyPartiesViewHolder(@NonNull View itemView) {
+        public FriendsViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image_view);
             name = itemView.findViewById(R.id.name_tv);

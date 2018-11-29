@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity
 
     private DatabaseReference mUserRef, mspecificUserRef;
 
-    private String uid;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,11 +163,6 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
-
-            //noinspection SimplifiableIfStatement
-           // if (id == R.id.action_settings) {
-                //return true;
-            //}
 
         }
 

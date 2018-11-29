@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +27,7 @@ public class FriendsActivity extends AppCompatActivity {
     private DatabaseReference mUserRef, mspecificUserRef;
 
     private String uid;
+    private TextView noPartiesTV;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -35,6 +38,10 @@ public class FriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_parties);
+
+        noPartiesTV = findViewById(R.id.no_parties_tv);
+
+        noPartiesTV.setVisibility(View.GONE);
 
         getMyParties();
     }
@@ -76,7 +83,7 @@ public class FriendsActivity extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        MyPartiesRecyclerViewAdapter adapter = new MyPartiesRecyclerViewAdapter(mNames, mImageUrls, this);
+        FriendsRecyclerViewAdapter adapter = new FriendsRecyclerViewAdapter(mNames, mImageUrls, this);
         adapter.loadFriends(mfriendsids);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
