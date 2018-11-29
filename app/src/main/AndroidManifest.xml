@@ -35,6 +35,7 @@
         <activity android:name=".SpecificEventActivity" />
         <activity android:name=".Utils.FullImageView" />
         <activity android:name=".MyPartiesActivity" />
+        <activity android:name=".FriendsActivity"></activity>
         <activity android:name=".PaymentActivity"></activity>
     </application>
 

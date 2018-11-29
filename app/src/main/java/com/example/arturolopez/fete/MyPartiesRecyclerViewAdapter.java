@@ -58,6 +58,28 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
         }
     }
 
+    public void loadFriends(ArrayList<String> mFriendsIds){
+        Log.d(TAG,"friendsList " + mFriendsIds);
+        mPartyids = mFriendsIds;
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mPatyRef = mFirebaseDatabase.getReference().child("users");
+        for(String friendid : mFriendsIds){
+            Log.d(TAG,"friendid " + friendid);
+            mspecificPartyRef = mPatyRef.child(friendid);
+            mspecificPartyRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(TAG,"child hostname " + dataSnapshot.child("hostName").getValue());
+                    mImages.add("https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36");
+                    mImageNames.add(dataSnapshot.child("email").getValue().toString());
+                    notifyDataSetChanged();
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+        }
+    }
+
     public MyPartiesRecyclerViewAdapter(ArrayList<String> mImageNames, ArrayList<String> mImages, Context mContext) {
         this.mImageNames = mImageNames;
         this.mImages = mImages;
