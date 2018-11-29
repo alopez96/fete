@@ -33,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -62,17 +63,19 @@ public class ChatActivity extends AppCompatActivity {
     private EditText mMessageEditText;
     private Button mSendButton;
 
-    private String mUsername;
+    private String mUsername, uid;
     private String partyid;
 
     //Firebase instance variables
     private FirebaseDatabase mFirebaseDatabase;             //entry point for our app to access the database
+    private DatabaseReference mUserRef, mspecificUserRef;
     private DatabaseReference mMessagesDatabaseReference;   //references a specific part of the database
     private ChildEventListener mChildEventListener;
     private DatabaseReference mPartyRef;
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -95,6 +98,35 @@ public class ChatActivity extends AppCompatActivity {
         mMessageListView = (ListView) findViewById(R.id.messageListView);
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
         mSendButton = (Button) findViewById(R.id.sendButton);
+
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            uid = user.getUid();
+            Log.d(TAG, "uid " + uid);
+            mUserRef = mFirebaseDatabase.getReference().child("users");
+            mspecificUserRef = mUserRef.child(uid);
+            Log.d(TAG,"uid: " + uid);
+            mspecificUserRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child("username").getValue() != null){
+                        mUsername = dataSnapshot.child("username").getValue().toString();
+                        Log.d(TAG, "username " + mUsername);
+                    }
+                    else{
+                        mUsername = "no name";
+                        Log.d(TAG, "no username");
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
         // Initialize message ListView and its adapter
         List<Message> Messages = new ArrayList<>();
