@@ -38,7 +38,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SpecificEventActivity" />
         <activity android:name=".Utils.FullImageView" />
-        <activity android:name=".MyPartiesActivity"></activity>
+        <activity android:name=".MyPartiesActivity" />
+        <activity android:name=".FriendsActivity"></activity>
     </application>
 
 </manifest>

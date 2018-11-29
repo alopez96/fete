@@ -150,6 +150,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_friends) {
+            Intent i = new Intent(MainActivity.this, FriendsActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_help) {
 
