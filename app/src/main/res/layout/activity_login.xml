@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
-                    android:textColorHint="@color/light_primary_color"
+                    android:textColorHint="@color/white"
                     android:textColor="@color/white"
                     android:theme="@style/Autocomplete"
                     android:inputType="textEmailAddress"
@@ -85,15 +85,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
-                    android:textColorHint="@color/light_primary_color"
+                    android:textColorHint="@color/white"
                     android:imeActionId="6"
                     android:textColor="@color/white"
                     android:theme="@style/Autocomplete"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:importantForAutofill="no" />
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -113,27 +112,22 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
 
-            <Button
+            <com.shobhitpuri.custombuttons.GoogleSignInButton
                 android:id="@+id/google_btn"
-                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_sign_in_google"
-                android:textColor="@color/white"
-                android:background="@color/dark_green"
+                android:text="@string/google_sign_in"
+                android:textColor="@color/black"
                 android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
+                android:layout_gravity="center_horizontal"
+                app:isDarkTheme="false" />
 
 
             <ImageView
                 android:id="@+id/orDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/or"
                 app:layout_constraintEnd_toEndOf="parent"

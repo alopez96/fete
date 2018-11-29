@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">fete</string>
+    <string name="app_name">Fete</string>
     <string name="title_activity_main2">Fete</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -39,5 +39,16 @@
     <string name="login_using_facebook">LOG IN WITH FACEBOOK</string>
     <string name="action_register">Register</string>
     <string name="forgot_password">Forgot Password</string>
+
+    <!-- Parties -->
+    <string name="my_parties">My Parties</string>
+    <string name="string_for_name">Name</string>
+    <string name="string_for_date">Date</string>
+    <string name="no_paries_yet">You have not joined any parties :(</string>
+    <string name="party_image">Party Image(</string>
+
+
+
+
 
 </resources>

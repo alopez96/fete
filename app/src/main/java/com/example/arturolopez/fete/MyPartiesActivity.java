@@ -4,9 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 
 import com.bumptech.glide.util.LogTime;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+
+
 
 import java.util.ArrayList;
 
@@ -36,14 +41,25 @@ public class MyPartiesActivity extends AppCompatActivity {
 
     private TextView noPartiesTV;
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_parties);
 
-        noPartiesTV = findViewById(R.id.no_parties_tv);
+        TextView toolbarText = findViewById(R.id.toolbar_text);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if(toolbarText!=null && toolbar!=null) {
+            toolbarText.setText(R.string.my_parties);
+            setSupportActionBar(toolbar);
+        }
 
+        noPartiesTV = findViewById(R.id.no_parties_tv);
         noPartiesTV.setVisibility(View.GONE);
+
 
         getMyParties();
     }

@@ -86,14 +86,14 @@ public class CreateEventActivity extends AppCompatActivity {
         EventImageButton = findViewById(R.id.event_image_tv);
 
 //        imageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
-        imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
-        Picasso.get().load(imageUrl).into(EventImageButton);
-        EventImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-            }
-        });
+//        imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
+//        Picasso.get().load(imageUrl).into(EventImageButton);
+//        EventImageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+//            }
+//        });
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
