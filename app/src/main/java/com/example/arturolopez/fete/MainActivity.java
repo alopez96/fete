@@ -50,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "MainActivity";
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();

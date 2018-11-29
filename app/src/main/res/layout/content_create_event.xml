@@ -54,8 +54,10 @@
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
-                    android:hint="date and time"
-                    android:textSize="26dp" />
+                    android:hint="date"
+                    android:textSize="26dp"
+                    android:drawableBottom="@drawable/calendar_black"/>
+
 
                 <EditText
                     android:id="@+id/price_tv"
