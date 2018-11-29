@@ -50,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "MainActivity";
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity
 
 
     private DatabaseReference mUserRef, mspecificUserRef;
-
-    private String uid;
 
 
     @Override
@@ -152,6 +150,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_friends) {
+            Intent i = new Intent(MainActivity.this, FriendsActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_messages) {
             Intent i = new Intent(MainActivity.this, ChatActivity.class);
@@ -163,11 +163,6 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
-
-            //noinspection SimplifiableIfStatement
-           // if (id == R.id.action_settings) {
-                //return true;
-            //}
 
         }
 
