@@ -28,6 +28,8 @@ import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -41,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,13 +58,18 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> mDates = new ArrayList<>();
     private ArrayList<String> mPartyids = new ArrayList<>();
 
-    private Button eventButton;
     private CircleImageView Selfie;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecifiPartyRef;
     private String partyid;
 
     private String imageUrl;
+
+
+    private DatabaseReference mUserRef, mspecificUserRef;
+
+    private String uid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +79,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        eventButton = findViewById(R.id.create_event_btn);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -92,15 +99,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        eventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivity(i);
-            }
-        });
 
         getImages();
+
     }
 
     @Override
@@ -122,13 +123,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        // Create a new Party
+        Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
+        startActivity(i);
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.create_event_btn) {
             return true;
         }
 
@@ -153,9 +155,21 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, FriendsActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_messages) {
+            Intent i = new Intent(MainActivity.this, ChatActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_setting) {
+        } else if (id == R.id.action_settings) {
+            //sign out
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+
+            //noinspection SimplifiableIfStatement
+           // if (id == R.id.action_settings) {
+                //return true;
+            //}
 
         }
 
@@ -167,6 +181,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        initRecyclerView();
     }
 
     private void getImages(){
@@ -200,10 +215,11 @@ public class MainActivity extends AppCompatActivity
 
     private void initRecyclerView(){
         Log.d(TAG, "MainACtivity: initRecyclerView");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls, mPartyids);
         recyclerView.setAdapter(adapter);
     }
+
 }

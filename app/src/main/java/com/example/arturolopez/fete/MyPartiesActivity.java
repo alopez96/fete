@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.bumptech.glide.util.LogTime;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,10 +34,16 @@ public class MyPartiesActivity extends AppCompatActivity {
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mpartyids = new ArrayList<>();
 
+    private TextView noPartiesTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_parties);
+
+        noPartiesTV = findViewById(R.id.no_parties_tv);
+
+        noPartiesTV.setVisibility(View.GONE);
 
         getMyParties();
     }
@@ -62,7 +70,11 @@ public class MyPartiesActivity extends AppCompatActivity {
                     }
                 }
                 Log.d(TAG,"my parties " + mpartyids);
-                initImageBitmaps();
+                initRecyclerView();
+                Log.d(TAG, "partySize " + mpartyids.size());
+                if(mpartyids.size() == 0){
+                    noPartiesTV.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -70,12 +82,6 @@ public class MyPartiesActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void initImageBitmaps(){
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-        initRecyclerView();
     }
 
     private void initRecyclerView(){

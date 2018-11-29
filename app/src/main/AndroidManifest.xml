@@ -23,10 +23,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ChatActivity"
-            android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AccountPage" />
         <activity
             android:name=".CreateEventActivity"
@@ -40,6 +36,11 @@
         <activity android:name=".Utils.FullImageView" />
         <activity android:name=".MyPartiesActivity" />
         <activity android:name=".FriendsActivity"></activity>
+        <activity android:name=".PaymentActivity"></activity>
     </application>
 
+    <meta-data
+        android:name="com.google.android.gms.wallet.api.enabled"
+        android:value="true" />
+    <uses-permission android:name="com.android.vending.BILLING"/>
 </manifest>
