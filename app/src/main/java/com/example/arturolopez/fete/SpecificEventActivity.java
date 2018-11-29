@@ -38,6 +38,7 @@ public class SpecificEventActivity extends AppCompatActivity {
     private Button joinButton;
     private Button leaveButton;
     private Button payButton;
+    private Button chatButton;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecificPartyRef;
@@ -64,6 +65,7 @@ public class SpecificEventActivity extends AppCompatActivity {
         joinButton = findViewById(R.id.join_btn);
         leaveButton = findViewById(R.id.leave_btn);
         payButton = findViewById(R.id.payment_btn);
+        chatButton = findViewById(R.id.chat_btn);
 
         String partyBoolean;
         boolean partyJoinedTrue;
@@ -82,8 +84,21 @@ public class SpecificEventActivity extends AppCompatActivity {
             else{
                 Log.d(TAG,"you have NOT joined this party.");
                 leaveButton.setVisibility(View.GONE);
+                chatButton.setVisibility(View.GONE);
             }
         }
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SpecificEventActivity.this, ChatActivity.class);
+                Log.d(TAG, partyid);
+                if(partyid != null){
+                    i.putExtra("paryid", partyid);
+                    startActivity(i);
+                }
+            }
+        });
 
         getPartyInfo();
 
