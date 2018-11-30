@@ -64,8 +64,8 @@ public class ForgotPasswdActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = emailText.getText().toString().trim();
                 Log.d(TAG, "EMAIL: " + email);
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(email) || !email.contains("@")) {
+                    Toast.makeText(getApplication(), "Enter a valid email", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mAuth.sendPasswordResetEmail(email)
@@ -73,11 +73,11 @@ public class ForgotPasswdActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Log.d(TAG, "Email sent.");
                                     Toast.makeText(ForgotPasswdActivity.this, "Email Sent!",Toast.LENGTH_LONG).show();
                                 }
                                 else{
-                                    Log.d(TAG, "failed to send email");
+                                    Toast.makeText(ForgotPasswdActivity.this,
+                                            task.getException().getMessage(),Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
