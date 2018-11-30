@@ -122,6 +122,19 @@
                 android:layout_gravity="center_horizontal"
                 app:isDarkTheme="false" />
 
+            <Button
+                android:id="@+id/forgot_passwd_btn"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_forgot_passwd"
+                android:textColor="@color/black"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
 
             <ImageView
                 android:id="@+id/orDivider"
@@ -141,7 +154,7 @@
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_new_contacts"
+                android:text="@string/create_new_account"
                 android:textColor="@color/white"
                 android:background="@color/dark_green"
                 android:layout_marginTop="30dp"

@@ -25,6 +25,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Already Have An Account Sign In</string>
+    <string name="action_forgot_passwd">Forgot Password</string>
     <string name="action_sign_in_short">Login</string>
     <string name="action_sign_in_google">Sign In With Google</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -35,7 +36,7 @@
         completions."
     </string>
     <string name="or_divider">Or</string>
-    <string name="create_new_contacts">CREATE A NEW CONTACT</string>
+    <string name="create_new_account">CREATE A NEW ACCOUNT</string>
     <string name="login_using_facebook">LOG IN WITH FACEBOOK</string>
     <string name="action_register">Register</string>
     <string name="forgot_password">Forgot Password</string>
@@ -46,9 +47,6 @@
     <string name="string_for_date">Date</string>
     <string name="no_paries_yet">You have not joined any parties :(</string>
     <string name="party_image">Party Image(</string>
-
-
-
 
 
 </resources>

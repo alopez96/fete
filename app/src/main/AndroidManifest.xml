@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.arturolopez.fete">
 
+    <meta-data
+        android:name="com.google.android.gms.wallet.api.enabled"
+        android:value="true" />
+
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,13 +41,10 @@
         <activity android:name=".SpecificEventActivity" />
         <activity android:name=".Utils.FullImageView" />
         <activity android:name=".MyPartiesActivity" />
-        <activity android:name=".FriendsActivity"></activity>
-        <activity android:name=".PaymentActivity"></activity>
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".PaymentActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ForgotPasswdActivity"></activity>
     </application>
 
-    <meta-data
-        android:name="com.google.android.gms.wallet.api.enabled"
-        android:value="true" />
-    <uses-permission android:name="com.android.vending.BILLING"/>
 </manifest>
