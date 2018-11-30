@@ -63,6 +63,12 @@ public class AccountPage extends AppCompatActivity {
         prefillInfo();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prefillInfo();
+    }
+
 
     public void prefillInfo(){
         mAuth = FirebaseAuth.getInstance();

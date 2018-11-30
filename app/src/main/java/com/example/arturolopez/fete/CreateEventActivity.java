@@ -244,13 +244,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 mPartyReference = mFirebaseDatabase.getReference().child("parties");
                 partyid = mPartyReference.push().getKey();
                 mspecificPartyRef = mPartyReference.child(partyid);
-                if(imageUrl != null){
+                if(imageUrl == null) {
+                    imageUrl = "";
+                }
                     thisParty = new Party(partyname, date, host, price, address, descr, partyid, imageUrl);
                     mspecificPartyRef.setValue(thisParty);
                     pd.dismiss();
                     Intent i = new Intent(CreateEventActivity.this, MainActivity.class);
                     startActivity(i);
-                }
 
                 Toast.makeText(CreateEventActivity.this, "party created",Toast.LENGTH_SHORT).show();
             }

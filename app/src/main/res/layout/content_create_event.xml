@@ -39,7 +39,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical">
-
+2
 
                 <EditText
                     android:id="@+id/party_name_tv"

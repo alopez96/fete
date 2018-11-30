@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             "foo@example.com:hello", "bar@example.com:world"
     };
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private UserLoginTask mAuthTask = null;
@@ -75,7 +75,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // UI references.
     private AutoCompleteTextView emailTV;
     private EditText passwordTV;
-    private Button googleloginInButton, signUpButton, loginButton;
+    private Button googleloginInButton;
+    private Button signUpButton;
+    private Button loginButton;
+    private Button forgotPasswd;
     private String email, password;
 
     private FirebaseAuth mAuth;
@@ -93,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         googleloginInButton = findViewById(R.id.google_btn);
         signUpButton = findViewById(R.id.sign_up_btn);
         loginButton = findViewById(R.id.login_btn);
+        forgotPasswd = findViewById(R.id.forgot_passwd_btn);
 
         firebaseAuth = FirebaseAuth.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -167,6 +171,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        forgotPasswd.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"forgot password");
+                Intent i = new Intent(LoginActivity.this, ForgotPasswdActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
