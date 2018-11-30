@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -42,6 +43,13 @@ public class FriendsActivity extends AppCompatActivity {
         noPartiesTV = findViewById(R.id.no_parties_tv);
 
         noPartiesTV.setVisibility(View.GONE);
+
+        TextView toolbarText = findViewById(R.id.toolbar_text);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if(toolbarText!=null && toolbar!=null) {
+            toolbarText.setText(R.string.my_friends);
+            setSupportActionBar(toolbar);
+        }
 
         getMyParties();
     }

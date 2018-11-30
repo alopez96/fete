@@ -42,6 +42,7 @@
 
     <!-- Parties -->
     <string name="my_parties">My Parties</string>
+    <string name="my_friends">My Friends</string>
     <string name="string_for_name">Name</string>
     <string name="string_for_date">Date</string>
     <string name="no_paries_yet">You have not joined any parties :(</string>
