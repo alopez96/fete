@@ -1,5 +1,6 @@
 package com.example.arturolopez.fete;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -74,6 +75,9 @@ public class ForgotPasswdActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(ForgotPasswdActivity.this, "Email Sent!",Toast.LENGTH_LONG).show();
+                                    Intent emailAct = new Intent(Intent.ACTION_SEND);
+                                    emailAct.setType("text/plain");
+                                    startActivity(emailAct);
                                 }
                                 else{
                                     Toast.makeText(ForgotPasswdActivity.this,
