@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +48,25 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d(TAG,"uid " + uid);
 
 
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequest();
+            }
+        });
+    getUserData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getUserData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserData();
     }
 
     private void getUserData(){
@@ -65,9 +86,10 @@ public class ProfileActivity extends AppCompatActivity {
                         Selfie.setVisibility(View.INVISIBLE);
                     }
                 }
-                if(dataSnapshot.child("name").getValue() != null){
-                    name = dataSnapshot.child("name").getValue().toString();
+                if(dataSnapshot.child("username").getValue() != null){
+                    name = dataSnapshot.child("username").getValue().toString();
                     Name.setText(name);
+
                 }
 
             }
@@ -76,5 +98,20 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    private void sendRequest(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String thisuid = "";
+        if(user != null) {
+            //user is signed in
+            thisuid = user.getUid();
+        }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserRef = mFirebaseDatabase.getReference().child("users");
+        mspecificUserRef = mUserRef.child(uid);
+        mspecificUserRef.child("friends").child(thisuid).setValue("true");
+        Toast.makeText(this, "Friend Request sent!",Toast.LENGTH_SHORT).show();
     }
 }

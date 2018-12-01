@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +38,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     private DatabaseReference mPatyRef, mspecificPartyRef;
 
 
-    public void loadFriends(ArrayList<String> mFriendsIds, final String thisuid){
+    public void loadFriends(final ArrayList<String> mFriendsIds, final String thisuid){
         Log.d(TAG,"friendsList " + mFriendsIds);
         mUserIds = mFriendsIds;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -49,11 +50,16 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String uid = dataSnapshot.child("uid").getValue().toString();
-                    if(Objects.equals(uid, thisuid)){
-                        //do not add me to the list of Friends
-                        Log.d(TAG, "user is me");
-                    }
-                    else{
+//                    if(Objects.equals(uid, thisuid)){
+//                        //do not add me to the list of Friends
+//                        Log.d(TAG, "user is me");
+//                        removeElements(mFriendsIds, thisuid);
+//                        mUserIds = mFriendsIds;
+//                        Log.d(TAG,"friends removed " + mUserIds);
+//                        notifyDataSetChanged();
+//                        return;
+//                    }
+
                         if(dataSnapshot.child("img").getValue() != null){
                             mImages.add(dataSnapshot.child("img").getValue().toString());
                         }
@@ -68,7 +74,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
                             mImageNames.add(dataSnapshot.child("email").getValue().toString());
                             notifyDataSetChanged();
                         }
-                    }
+
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
@@ -127,5 +133,14 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
             name = itemView.findViewById(R.id.name_tv);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
+    }
+
+    public static ArrayList removeElements(ArrayList<String> input, String deleteMe) {
+        ArrayList result = new ArrayList<String>();
+        for(String item : input) {
+            if (!deleteMe.equals(item))
+                result.add(item);
+        }
+        return result;
     }
 }
