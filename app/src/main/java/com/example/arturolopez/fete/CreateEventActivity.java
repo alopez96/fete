@@ -212,7 +212,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     }
                                     public void onFailure(@NonNull Exception exception) {
                                         // Handle any errors
-                                        Log.e("Eventctivity Exception", exception.toString());
+                                        Log.e("EventActivity Exception", exception.toString());
                                     }
                                 });
                     }
