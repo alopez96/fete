@@ -43,6 +43,8 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent backActivity = new Intent(PaymentActivity.this, MainActivity.class);
+                startActivity(backActivity);
                 System.out.println("back button");
             }
         });
