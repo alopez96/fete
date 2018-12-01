@@ -92,7 +92,7 @@ public class FriendsActivity extends AppCompatActivity {
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
         FriendsRecyclerViewAdapter adapter = new FriendsRecyclerViewAdapter(mNames, mImageUrls, this);
-        adapter.loadFriends(mfriendsids);
+        adapter.loadFriends(mfriendsids, uid);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

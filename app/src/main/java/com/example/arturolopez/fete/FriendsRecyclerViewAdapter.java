@@ -22,23 +22,24 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecyclerViewAdapter.FriendsViewHolder> {
 
-    private static final String TAG = "MyPartiesRecyclerViewAd";
+    private static final String TAG = "FriendsRecyclerView";
 
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mPartyids = new ArrayList<>();
+    private ArrayList<String> mUserIds = new ArrayList<>();
     private Context mContext;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPatyRef, mspecificPartyRef;
 
 
-    public void loadFriends(ArrayList<String> mFriendsIds){
+    public void loadFriends(ArrayList<String> mFriendsIds, final String thisuid){
         Log.d(TAG,"friendsList " + mFriendsIds);
-        mPartyids = mFriendsIds;
+        mUserIds = mFriendsIds;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPatyRef = mFirebaseDatabase.getReference().child("users");
         for(String friendid : mFriendsIds){
@@ -47,17 +48,26 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
             mspecificPartyRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "child hostname " + dataSnapshot.child("hostName").getValue());
-                    if(dataSnapshot.child("username").getValue() != null) {
-                        Log.d(TAG, "child hostname " + dataSnapshot.child("hostName").getValue());
-                        mImages.add("https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36");
-                        mImageNames.add(dataSnapshot.child("username").getValue().toString());
-                        notifyDataSetChanged();
+                    String uid = dataSnapshot.child("uid").getValue().toString();
+                    if(Objects.equals(uid, thisuid)){
+                        //do not add me to the list of Friends
+                        Log.d(TAG, "user is me");
                     }
                     else{
-                        mImages.add("https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36");
-                        mImageNames.add(dataSnapshot.child("email").getValue().toString());
-                        notifyDataSetChanged();
+                        if(dataSnapshot.child("img").getValue() != null){
+                            mImages.add(dataSnapshot.child("img").getValue().toString());
+                        }
+                        else{
+                            mImages.add("https://firebasestorage.googleapis.com/v0/b/realtime-156710.appspot.com/o/admin%2Fplace-holder-2.png?alt=media&token=a158c22a-d264-4863-b83b-48bfe69cae36");
+                        }
+                        if(dataSnapshot.child("username").getValue() != null) {
+                            mImageNames.add(dataSnapshot.child("username").getValue().toString());
+                            notifyDataSetChanged();
+                        }
+                        else{
+                            mImageNames.add(dataSnapshot.child("email").getValue().toString());
+                            notifyDataSetChanged();
+                        }
                     }
                 }
                 @Override
@@ -92,7 +102,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"partyid " + mPartyids.get(position));
+                Log.d(TAG,"userid " + mUserIds.get(position));
             }
         });
     }
