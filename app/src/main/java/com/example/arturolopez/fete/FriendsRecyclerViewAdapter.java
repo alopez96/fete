@@ -103,6 +103,9 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"userid " + mUserIds.get(position));
+                Intent profileActivity = new Intent(mContext, ProfileActivity.class);
+                profileActivity.putExtra("uid", mUserIds.get(position));
+                mContext.startActivity(profileActivity);
             }
         });
     }
