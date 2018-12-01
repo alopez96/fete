@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.StatsSnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -86,6 +87,8 @@ public class AccountPage extends AppCompatActivity {
                 }
             });
         }
+
+        getUserImage();
     }
 
     @Override
@@ -234,7 +237,6 @@ public class AccountPage extends AppCompatActivity {
     }
 
     private void getUserImage(){
-        Log.d(TAG,"getUserImage");
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null){
@@ -253,12 +255,17 @@ public class AccountPage extends AppCompatActivity {
                 if(dataSnapshot.child("img").getValue() != null){
                     imageUrl = dataSnapshot.child("img").getValue().toString();
                 }
-                if(!imageUrl.isEmpty()){
-                    Picasso.get().load(imageUrl).into(userImageView);
-                }
-                else{
-                    userImageView.setVisibility(View.INVISIBLE);
-                }
+                Picasso.get().load(imageUrl).into(userImageView, new com.squareup.picasso.Callback(){
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG,"picassoimage success");
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Log.d(TAG,"picassoimage failed. error: " + ex.getMessage());
+                    }
+                });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

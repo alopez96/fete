@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.StatsSnapshot;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity
 
 
         getImages();
+        getUserImage();
 
     }
 
@@ -226,7 +228,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getUserImage(){
-        Log.d(TAG,"getUserImage");
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null){
@@ -245,7 +246,17 @@ public class MainActivity extends AppCompatActivity
                 if(dataSnapshot.child("img").getValue() != null){
                     imageUrl = dataSnapshot.child("img").getValue().toString();
                 }
-                Picasso.get().load(imageUrl).into(Selfie);
+                Picasso.get().load(imageUrl).into(Selfie, new com.squareup.picasso.Callback(){
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG,"picassoimage success");
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Log.d(TAG,"picassoimage failed");
+                    }
+                });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
