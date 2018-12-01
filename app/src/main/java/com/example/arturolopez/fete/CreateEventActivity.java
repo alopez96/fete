@@ -64,9 +64,6 @@ public class CreateEventActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
-    Calendar currentTime;
-    String format;
-
     private String partyname, date, host, price, address, descr, partyid, imageUrl, placeholderImageUrl;
     private String uid;
 
@@ -79,7 +76,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private DatabaseReference mUsersReference;
     private DatabaseReference mspecificUserRef;
-    private MyUser thisUser;
     private StorageReference mountainsRef;
     private ProgressDialog pd;
 
@@ -104,12 +100,14 @@ public class CreateEventActivity extends AppCompatActivity {
 //        imageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
 //        imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
 //        Picasso.get().load(imageUrl).into(EventImageButton);
-//        EventImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-//            }
-//        });
+        if(EventImageButton != null){
+            EventImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+                }
+            });
+        }
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,8 +129,7 @@ public class CreateEventActivity extends AppCompatActivity {
         mPartyReference = mFirebaseDatabase.getReference().child("parties");
         partyid = mPartyReference.push().getKey();
 
-        mDisplayDate = (TextView) findViewById(R.id.date_tv);
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+        PartyDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
@@ -149,15 +146,14 @@ public class CreateEventActivity extends AppCompatActivity {
             }
 
         });
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-
             @Override
-
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
                 String date = month + "/" + day + "/" + year;
-                mDisplayDate.setText(date);
+                PartyDate.setText(date);
             }
 
         };

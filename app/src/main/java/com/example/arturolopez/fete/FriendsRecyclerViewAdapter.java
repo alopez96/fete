@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -83,10 +84,8 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     @Override
     public void onBindViewHolder(FriendsViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
-        Glide.with(mContext)
-                .asBitmap()
-                .load(mImages.get(position))
-                .into(holder.image);
+
+        Picasso.get().load(mImages.get(position)).into(holder.image);
 
         holder.name.setText(mImageNames.get(position));
 

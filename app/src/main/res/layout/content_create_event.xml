@@ -59,9 +59,9 @@
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
-                    android:hint="date"
+                    android:hint="date (click icon)"
                     android:textSize="26dp"
-                    android:drawableBottom="@drawable/calendar_black"/>
+                    android:drawableLeft="@drawable/calendar_black"/>
 
 
                 <EditText
