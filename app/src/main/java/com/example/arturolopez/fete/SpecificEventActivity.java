@@ -173,7 +173,12 @@ public class SpecificEventActivity extends AppCompatActivity {
                     desc = thisParty.description;
                     populateInfo(name, date, hostname, price, address, desc);
                 }
-                Picasso.get().load(imageurl).into(imageView);
+                if(!imageurl.isEmpty()){
+                    Picasso.get().load(imageurl).into(imageView);
+                }
+                else{
+                    imageView.setVisibility(View.INVISIBLE);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
