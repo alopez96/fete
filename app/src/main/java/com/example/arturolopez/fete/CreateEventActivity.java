@@ -96,6 +96,10 @@ public class CreateEventActivity extends AppCompatActivity {
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
 
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mPartyReference = mFirebaseDatabase.getReference().child("parties");
+        partyid = mPartyReference.push().getKey();
+
         imageUrl = "https://firebasestorage.googleapis.com/v0/b/fete-3963c.appspot.com/o/parties%2F-LSg2RH1LaTG2EaIjVhU?alt=media&token=9ed2b1db-4ad9-429f-85fd-4c788e0b9f96";
         Picasso.get().load(imageUrl).into(EventImageButton);
         if(EventImageButton != null){
@@ -123,9 +127,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mPartyReference = mFirebaseDatabase.getReference().child("parties");
-        partyid = mPartyReference.push().getKey();
 
         PartyDate.setOnClickListener(new View.OnClickListener() {
 
@@ -237,8 +238,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 Log.d("host",host);
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mPartyReference = mFirebaseDatabase.getReference().child("parties");
-                partyid = mPartyReference.push().getKey();
                 mspecificPartyRef = mPartyReference.child(partyid);
+                Log.d(TAG, "#1 Party ID: " + partyid);
                 if(imageUrl == null) {
                     imageUrl = "";
                 }
@@ -265,6 +266,7 @@ public class CreateEventActivity extends AppCompatActivity {
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mUsersReference = mFirebaseDatabase.getReference().child("users");
             mspecificUserRef = mUsersReference.child(uid);
+            Log.d(TAG, "Party ID: " + partyid);
             mspecificUserRef.child("parties").child(partyid).setValue("true");
         }
     }
