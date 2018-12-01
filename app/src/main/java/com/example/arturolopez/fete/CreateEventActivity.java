@@ -63,7 +63,6 @@ public class CreateEventActivity extends AppCompatActivity {
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-
     private String partyname, date, host, price, address, descr, partyid, imageUrl, placeholderImageUrl;
     private String uid;
 
@@ -97,9 +96,8 @@ public class CreateEventActivity extends AppCompatActivity {
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
 
-//        imageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
-//        imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
-//        Picasso.get().load(imageUrl).into(EventImageButton);
+        imageUrl = "https://firebasestorage.googleapis.com/v0/b/fete-3963c.appspot.com/o/parties%2F-LSg2RH1LaTG2EaIjVhU?alt=media&token=9ed2b1db-4ad9-429f-85fd-4c788e0b9f96";
+        Picasso.get().load(imageUrl).into(EventImageButton);
         if(EventImageButton != null){
             EventImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
