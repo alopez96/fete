@@ -59,14 +59,17 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> mPartyids = new ArrayList<>();
 
     private CircleImageView Selfie;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mPartyRef, mspecifiPartyRef;
     private String partyid;
 
     private String imageUrl;
+    private String uid;
 
 
-    private DatabaseReference mUserRef, mspecificUserRef;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mPartyRef;
+    private DatabaseReference mUsersReference, mSpecificUserRef;
+    private FirebaseDatabase mFirebaseDatabase;
+
 
 
     @Override
@@ -91,7 +94,6 @@ public class MainActivity extends AppCompatActivity
         Selfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "account page", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, AccountPage.class);
                 startActivity(i);
             }
@@ -174,7 +176,16 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         initRecyclerView();
+        getUserImage();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initRecyclerView();
+        getUserImage();
+    }
+
 
     private void getImages(){
         //get adress and date of parties
@@ -212,6 +223,35 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls, mPartyids);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void getUserImage(){
+        Log.d(TAG,"getUserImage");
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            //user is signed in
+            uid = user.getUid();
+        }
+        else{
+            return;
+        }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsersReference = mFirebaseDatabase.getReference().child("users");
+        mSpecificUserRef = mUsersReference.child(uid);
+        mSpecificUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("img").getValue() != null){
+                    imageUrl = dataSnapshot.child("img").getValue().toString();
+                }
+                Picasso.get().load(imageUrl).into(Selfie);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

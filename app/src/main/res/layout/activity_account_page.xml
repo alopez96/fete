@@ -15,10 +15,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_view"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
             app:civ_border_color="#FFFFFF"
             app:civ_border_width="2dp"
@@ -30,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="name"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textSize="26dp"/>
 
