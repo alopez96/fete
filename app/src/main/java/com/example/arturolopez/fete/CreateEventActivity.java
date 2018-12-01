@@ -173,6 +173,7 @@ public class CreateEventActivity extends AppCompatActivity {
             uid = currentUser.getUid();
         }
         pushToFirebase();
+        addPartyToMyParties();
     }
 
     @Override
@@ -254,6 +255,18 @@ public class CreateEventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void addPartyToMyParties(){
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null) {
+            uid = user.getUid();
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mUsersReference = mFirebaseDatabase.getReference().child("users");
+            mspecificUserRef = mUsersReference.child(uid);
+            mspecificUserRef.child("parties").child(partyid).setValue("true");
+        }
     }
 
 }
