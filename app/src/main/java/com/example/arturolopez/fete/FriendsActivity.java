@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FriendsActivity extends AppCompatActivity {
 
@@ -59,6 +60,7 @@ public class FriendsActivity extends AppCompatActivity {
         if(user != null) {
             //user is signed in
             uid = user.getUid();
+            Log.d(TAG, "thisuid: " + uid);
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
@@ -69,7 +71,9 @@ public class FriendsActivity extends AppCompatActivity {
                     ArrayList<String> litList = new ArrayList<>();
                     litList.clear();
                     Log.d(TAG, "friendsids " + childDataSnapshot.getKey());
-                    mfriendsids.add(childDataSnapshot.getKey());
+                    if(!Objects.equals(uid, childDataSnapshot.getKey())){
+                        mfriendsids.add(childDataSnapshot.getKey());
+                    }
                 }
                 Log.d(TAG, "friendsList " + mfriendsids);
                 initImageBitmaps();
