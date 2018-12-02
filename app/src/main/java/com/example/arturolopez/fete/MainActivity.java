@@ -198,14 +198,14 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("Count " ,""+ dataSnapshot.getChildrenCount());
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    final String name = childDataSnapshot.child("address").getValue().toString();
+                    final String name = childDataSnapshot.child("partyName").getValue().toString();
                     final String date = childDataSnapshot.child("date").getValue().toString();
                     final String imageUrl = childDataSnapshot.child("imageUrl").getValue().toString();
-                    final String partid = childDataSnapshot.child("partyid").getValue().toString();
+                    final String partyid = childDataSnapshot.child("partyid").getValue().toString();
                     mDates.add(date);
                     mNames.add(name);
                     mImageUrls.add(imageUrl);
-                    mPartyids.add(partid);
+                    mPartyids.add(partyid);
                 }
                 initRecyclerView();
             }
