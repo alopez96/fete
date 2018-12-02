@@ -4,36 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".CreateEventActivity"
-    tools:showIn="@layout/activity_create_event">
+    tools:context=".CreateEventActivity">
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/white" />
+
+    <ImageView
+        android:id="@+id/event_image_tv"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/ic_insert_photo_24dp"
+        android:contentDescription="@string/party_image"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/event_image_tv">
 
-        <ImageView
-            android:id="@+id/event_image_tv"
-            android:layout_width="220dp"
-            android:layout_height="180dp"
-            android:contentDescription="@string/party_image"
-            android:layout_gravity="center"
-            android:paddingTop="15dp" />
 
-        <ScrollView
+        <EditText
+            android:id="@+id/party_name_tv"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:paddingTop="10dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="party name"
+            android:textSize="15sp" />
 
+
+        <EditText
+            android:id="@+id/date_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableBottom="@drawable/calendar_black"
+            android:hint="date"
+            android:textSize="15sp" />
+
+
+        <EditText
+            android:id="@+id/price_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="price (optional)"
+            android:inputType="number"
+            android:textSize="15sp" />
+
+<<<<<<< HEAD
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -98,11 +134,32 @@
                     android:textSize="26dp" />
             </LinearLayout>
         </ScrollView>
+=======
+
+        <EditText
+            android:id="@+id/address_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="address"
+            android:inputType="textPostalAddress"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/desc_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="description/ notes"
+            android:textSize="15sp" />
+>>>>>>> Gugsa
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="495dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:gravity="center"
             android:orientation="horizontal"
             tools:layout_editor_absoluteX="8dp"
@@ -120,7 +177,7 @@
                 android:text="Submit"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="14dp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/cancel_event_tv"
@@ -133,9 +190,7 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="14dp" />
-
-
+                android:textSize="15sp" />
         </LinearLayout>
 
 

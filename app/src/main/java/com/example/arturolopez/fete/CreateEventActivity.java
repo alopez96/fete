@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -84,8 +85,6 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         PartyName = findViewById(R.id.party_name_tv);
         PartyDate = findViewById(R.id.date_tv);
@@ -96,6 +95,7 @@ public class CreateEventActivity extends AppCompatActivity {
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
 
+<<<<<<< HEAD
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPartyReference = mFirebaseDatabase.getReference().child("parties");
         partyid = mPartyReference.push().getKey();
@@ -110,6 +110,17 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             });
         }
+=======
+        //imageUrl = "http://vectorpage.com/uploads/2015/09/Dance-Party-Backgrounds-7.png";
+        //imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
+        //Picasso.get().load(imageUrl).into(EventImageButton);
+        EventImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+            }
+        });
+>>>>>>> Gugsa
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
