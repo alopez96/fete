@@ -95,7 +95,6 @@ public class CreateEventActivity extends AppCompatActivity {
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
 
-<<<<<<< HEAD
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mPartyReference = mFirebaseDatabase.getReference().child("parties");
         partyid = mPartyReference.push().getKey();
@@ -110,17 +109,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             });
         }
-=======
-        //imageUrl = "http://vectorpage.com/uploads/2015/09/Dance-Party-Backgrounds-7.png";
-        //imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
-        //Picasso.get().load(imageUrl).into(EventImageButton);
-        EventImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-            }
-        });
->>>>>>> Gugsa
+
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override

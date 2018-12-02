@@ -1,5 +1,6 @@
 package com.example.arturolopez.fete;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class SpecificEventActivity extends AppCompatActivity {
 
     private String uid;
 
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,18 +124,10 @@ public class SpecificEventActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user != null) {
-                    //user is signed in
-                    uid = user.getUid();
-                }
-                mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mUserRef = mFirebaseDatabase.getReference().child("users");
-                mspecificUserRef = mUserRef.child(uid);
-                Log.d(TAG,"uid2: " + uid);
-                Log.d(TAG,"partyid2: " + partyid);
-                mspecificUserRef.child("parties").child(partyid).removeValue();
-                Toast.makeText(SpecificEventActivity.this, "You have left party!",Toast.LENGTH_SHORT).show();
+                pd = new ProgressDialog(SpecificEventActivity.this);
+                pd.setMessage("Leaving Party...");
+                pd.show();
+                removeParty();
             }
         });
 
@@ -230,7 +224,9 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
-        Toast.makeText(this, "You have joined this party!",Toast.LENGTH_SHORT).show();
+        Log.d(TAG,"you have joined party");
+        Intent home = new Intent(SpecificEventActivity.this, MainActivity.class);
+        startActivity(home);
     }
 
     private void removeParty(){
@@ -243,6 +239,9 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).removeValue();
-        System.out.println("removed from MyParties");
+        Log.d(TAG,"you have left party");
+        pd.dismiss();
+        Intent home = new Intent(SpecificEventActivity.this, MainActivity.class);
+        startActivity(home);
     }
 }

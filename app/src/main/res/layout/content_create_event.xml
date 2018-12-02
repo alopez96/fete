@@ -69,72 +69,7 @@
             android:inputType="number"
             android:textSize="15sp" />
 
-<<<<<<< HEAD
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
-2
 
-                <EditText
-                    android:id="@+id/party_name_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:hint="party name"
-                    android:textSize="26dp" />
-
-
-                <EditText
-                    android:id="@+id/date_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:hint="date (click icon)"
-                    android:textSize="26dp"
-                    android:drawableLeft="@drawable/calendar_black"/>
-
-
-                <EditText
-                    android:id="@+id/price_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:hint="price (optional)"
-                    android:inputType="number"
-                    android:textSize="26dp" />
-
-
-                <EditText
-                    android:id="@+id/address_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:hint="address"
-                    android:inputType="textPostalAddress"
-                    android:textSize="26dp" />
-
-                <EditText
-                    android:id="@+id/desc_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:hint="description/ notes"
-                    android:textSize="26dp" />
-            </LinearLayout>
-        </ScrollView>
-=======
 
         <EditText
             android:id="@+id/address_tv"
@@ -144,7 +79,8 @@
             android:backgroundTint="@color/colorPrimary"
             android:hint="address"
             android:inputType="textPostalAddress"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            />
 
         <EditText
             android:id="@+id/desc_tv"
@@ -154,7 +90,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:hint="description/ notes"
             android:textSize="15sp" />
->>>>>>> Gugsa
+
 
         <LinearLayout
             android:layout_width="match_parent"
