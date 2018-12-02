@@ -15,7 +15,7 @@
     <!-- Navigation Drawer Strings -->
     <string name="nav_home">Home</string>
     <string name="nav_my_parties">My Parties</string>
-    <string name="nav_notifications">Notifications</string>
+    <string name="nav_users">All Users</string>
     <string name="nav_messages">Messages</string>
     <string name="nav_friends">Friends</string>
     <string name="nav_signout">Sign Out</string>
@@ -50,15 +50,12 @@
     <string name="string_for_price">Price</string>
     <string name="string_for_description">Description</string>
     <string name="no_paries_yet">You have not joined any parties :(</string>
+    <string name="no_friends_yet">You do not have any friends :(</string>
     <string name="party_image">Party Image(</string>
     <string name="join_party">Join Party</string>
     <string name="leave_party">Leave Party</string>
     <string name="make_payment">$ Contribute $</string>
     <string name="chat">Chat</string>
-
-
-
-
 
 
 </resources>

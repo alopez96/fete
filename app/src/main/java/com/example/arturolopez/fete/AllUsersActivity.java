@@ -1,6 +1,5 @@
 package com.example.arturolopez.fete;
 
-import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,15 +20,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FriendsActivity extends AppCompatActivity {
+public class AllUsersActivity extends AppCompatActivity {
 
-    private static final String TAG = "FriendsActivity";
+    private static final String TAG = "AllUsersActivity";
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserRef, mspecificUserRef;
 
     private String uid;
-    private TextView noFriendsText;
+    private TextView noPartiesTV;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -39,11 +38,11 @@ public class FriendsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
+        setContentView(R.layout.activity_all_users);
 
-        noFriendsText = findViewById(R.id.no_parties_tv);
+        noPartiesTV = findViewById(R.id.no_parties_tv);
 
-        noFriendsText.setVisibility(View.GONE);
+        noPartiesTV.setVisibility(View.GONE);
 
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -64,30 +63,19 @@ public class FriendsActivity extends AppCompatActivity {
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
-        mspecificUserRef = mUserRef.child(uid);
         mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    ArrayList<String> myPartiesList = new ArrayList<>();
-                    myPartiesList.clear();
-                    for(DataSnapshot children : childDataSnapshot.getChildren()){
-                        if(children.getKey().contains("-")){
-                            //add party id
-                            mfriendsids.add(children.getKey());
-                            Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
-                        }
-                        else{
-                            //ignore userid
-                        }
+                    ArrayList<String> litList = new ArrayList<>();
+                    litList.clear();
+                    Log.d(TAG, "usersid " + childDataSnapshot.getKey());
+                    if(!Objects.equals(uid, childDataSnapshot.getKey())){
+                        mfriendsids.add(childDataSnapshot.getKey());
                     }
                 }
-                Log.d(TAG,"my friends " + mfriendsids);
-                initRecyclerView();
-                Log.d(TAG, "partySize " + mfriendsids.size());
-                if(mfriendsids.size() == 0){
-                    noFriendsText.setVisibility(View.VISIBLE);
-                }
+                Log.d(TAG, "usersList " + mfriendsids);
+                initImageBitmaps();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

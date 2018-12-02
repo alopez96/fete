@@ -25,9 +25,9 @@
             android:title="@string/nav_messages" />
 
         <item
-            android:id="@+id/nav_notifications"
+            android:id="@+id/nav_all_users"
             android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="@string/nav_notifications" />
+            android:title="@string/nav_users" />
 
     </group>
 
