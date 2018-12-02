@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MyPartiesActivity extends AppCompatActivity {
 
@@ -77,13 +78,21 @@ public class MyPartiesActivity extends AppCompatActivity {
         mspecificUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    ArrayList<String> litList = new ArrayList<>();
-                    litList.clear();
-                    for(DataSnapshot children : childDataSnapshot.getChildren()){
-                        mpartyids.add(children.getKey());
-                        Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
-                    }
+
+                    for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
+                        ArrayList<String> myPartiesList = new ArrayList<>();
+                        myPartiesList.clear();
+                        for(DataSnapshot children : childDataSnapshot.getChildren()){
+                            if(!children.getKey().contains("-")){
+                                //ignore userid
+                            }
+                            else{
+                                //add party id
+                                mpartyids.add(children.getKey());
+                                Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
+                            }
+                        }
+
                 }
                 Log.d(TAG,"my parties " + mpartyids);
                 initRecyclerView();
