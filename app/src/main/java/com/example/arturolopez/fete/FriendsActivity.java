@@ -43,7 +43,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         noFriendsText = findViewById(R.id.no_parties_tv);
 
-        noFriendsText.setVisibility(View.GONE);
+//        noFriendsText.setVisibility(View.GONE);
 
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -72,7 +72,7 @@ public class FriendsActivity extends AppCompatActivity {
                     ArrayList<String> myPartiesList = new ArrayList<>();
                     myPartiesList.clear();
                     for(DataSnapshot children : childDataSnapshot.getChildren()){
-                        if(children.getKey().contains("-")){
+                        if(!children.getKey().contains("-")){
                             //add party id
                             mfriendsids.add(children.getKey());
                             Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
@@ -83,7 +83,7 @@ public class FriendsActivity extends AppCompatActivity {
                     }
                 }
                 Log.d(TAG,"my friends " + mfriendsids);
-                initRecyclerView();
+//                initRecyclerView();
                 Log.d(TAG, "partySize " + mfriendsids.size());
                 if(mfriendsids.size() == 0){
                     noFriendsText.setVisibility(View.VISIBLE);
