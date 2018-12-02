@@ -27,9 +27,11 @@ public class ProfileActivity extends AppCompatActivity {
     private String uid;
     private String imageUrl;
     private String name;
+    private String bio;
 
     private ImageView Selfie;
-    private TextView Name;
+    private TextView NameText;
+    private TextView BioText;
     private Button AddButton;
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -41,7 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Selfie = findViewById(R.id.selfie_view);
-        Name = findViewById(R.id.name_tv);
+        NameText = findViewById(R.id.name_tv);
+        BioText = findViewById(R.id.bio_tv);
         AddButton = findViewById(R.id.add_btn);
 
         uid = getIntent().getStringExtra("uid");
@@ -88,8 +91,11 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 if(dataSnapshot.child("username").getValue() != null){
                     name = dataSnapshot.child("username").getValue().toString();
-                    Name.setText(name);
-
+                    NameText.setText(name);
+                }
+                if(dataSnapshot.child("bio").getValue() != null){
+                    bio = dataSnapshot.child("bio").getValue().toString();
+                    BioText.setText(bio);
                 }
 
             }
