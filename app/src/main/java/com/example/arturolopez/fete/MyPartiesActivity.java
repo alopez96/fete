@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -41,9 +42,7 @@ public class MyPartiesActivity extends AppCompatActivity {
     private ArrayList<String> mpartyids = new ArrayList<>();
 
     private TextView noPartiesTV;
-
-
-
+    private ImageView sadFace;
 
 
     @Override
@@ -59,8 +58,10 @@ public class MyPartiesActivity extends AppCompatActivity {
         }
 
         noPartiesTV = findViewById(R.id.no_parties_tv);
-        noPartiesTV.setVisibility(View.GONE);
+        sadFace = findViewById(R.id.sad_image);
 
+        noPartiesTV.setVisibility(View.GONE);
+        sadFace.setVisibility(View.GONE);
 
         getMyParties();
     }
@@ -97,6 +98,7 @@ public class MyPartiesActivity extends AppCompatActivity {
                 Log.d(TAG, "partySize " + mpartyids.size());
                 if(mpartyids.size() == 0){
                     noPartiesTV.setVisibility(View.VISIBLE);
+                    sadFace.setVisibility(View.VISIBLE);
                 }
             }
             @Override

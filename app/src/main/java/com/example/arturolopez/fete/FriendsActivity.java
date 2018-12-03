@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ public class FriendsActivity extends AppCompatActivity {
 
     private String uid;
     private TextView noFriendsText;
+    private ImageView sadFace;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -42,8 +44,10 @@ public class FriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends);
 
         noFriendsText = findViewById(R.id.no_parties_tv);
+        sadFace = findViewById(R.id.sad_image);
 
-//        noFriendsText.setVisibility(View.GONE);
+        noFriendsText.setVisibility(View.GONE);
+        sadFace.setVisibility(View.GONE);
 
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -52,10 +56,10 @@ public class FriendsActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
-        getMyParties();
+        getMyFriends();
     }
 
-    private void getMyParties(){
+    private void getMyFriends(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
             //user is signed in
@@ -65,28 +69,31 @@ public class FriendsActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
-        mUserRef.addValueEventListener(new ValueEventListener() {
+
+
+        mspecificUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
                     ArrayList<String> myPartiesList = new ArrayList<>();
                     myPartiesList.clear();
                     for(DataSnapshot children : childDataSnapshot.getChildren()){
-                        if(!children.getKey().contains("-")){
+                        if(children.getKey().contains("-")){
+                            //ignore userid
+                        }
+                        else{
                             //add party id
                             mfriendsids.add(children.getKey());
                             Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
                         }
-                        else{
-                            //ignore userid
-                        }
                     }
                 }
                 Log.d(TAG,"my friends " + mfriendsids);
-//                initRecyclerView();
+                initRecyclerView();
                 Log.d(TAG, "partySize " + mfriendsids.size());
                 if(mfriendsids.size() == 0){
                     noFriendsText.setVisibility(View.VISIBLE);
+                    sadFace.setVisibility(View.VISIBLE);
                 }
             }
             @Override
