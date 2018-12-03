@@ -47,7 +47,7 @@ public class AllUsersActivity extends AppCompatActivity {
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
         if(toolbarText!=null && toolbar!=null) {
-            toolbarText.setText(R.string.my_friends);
+            toolbarText.setText(R.string.all_users);
             setSupportActionBar(toolbar);
         }
 
