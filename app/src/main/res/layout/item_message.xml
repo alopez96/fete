@@ -2,12 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout4"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tipbook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout4"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp">
+    android:layout_height="wrap_content">
 
 
 
@@ -15,7 +14,7 @@
         android:id="@+id/message_card_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/message_card_two"
+        app:layout_constraintBottom_toTopOf="@+id/nameTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="8dp"
@@ -35,29 +34,21 @@
 
     </android.support.v7.widget.CardView>
 
-
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/message_card_two"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardBackgroundColor="@color/white"
-        tipbook:cardElevation="10dp"
-        tipbook:contentPadding="5dp">
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp"
+        tools:text="Name" />
 
-        <TextView
-            android:id="@+id/nameTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="12sp"
-            tools:text="Name" />
 
-    </android.support.v7.widget.CardView>
+
+
 
 
 

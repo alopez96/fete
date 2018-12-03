@@ -47,6 +47,7 @@
     <!-- Parties -->
     <string name="my_parties">My Parties</string>
     <string name="my_friends">Followers</string>
+    <string name="all_users">All Users</string>
     <string name="string_for_name">Name</string>
     <string name="string_for_date">Date</string>
     <string name="string_for_address">Address</string>
@@ -61,6 +62,7 @@
     <string name="chat">Chat</string>
     <string name="send">SEND</string>
     <string name="enter_message">Enter message</string>
+    <string name="pay_with_google">Pay with Google!</string>
 
 
 </resources>
