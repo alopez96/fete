@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FriendsActivity extends AppCompatActivity {
 
@@ -28,7 +30,8 @@ public class FriendsActivity extends AppCompatActivity {
     private DatabaseReference mUserRef, mspecificUserRef;
 
     private String uid;
-    private TextView noPartiesTV;
+    private TextView noFriendsText;
+    private ImageView sadFace;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -38,11 +41,13 @@ public class FriendsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_parties);
+        setContentView(R.layout.activity_friends);
 
-        noPartiesTV = findViewById(R.id.no_parties_tv);
+        noFriendsText = findViewById(R.id.no_parties_tv);
+        sadFace = findViewById(R.id.sad_image);
 
-        noPartiesTV.setVisibility(View.GONE);
+        noFriendsText.setVisibility(View.GONE);
+        sadFace.setVisibility(View.GONE);
 
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -51,28 +56,43 @@ public class FriendsActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
-        getMyParties();
+        getMyFriends();
     }
 
-    private void getMyParties(){
+    private void getMyFriends(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
             //user is signed in
             uid = user.getUid();
+            Log.d(TAG, "thisuid: " + uid);
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
-        mUserRef.addValueEventListener(new ValueEventListener() {
+        mspecificUserRef = mUserRef.child(uid);
+        mspecificUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    ArrayList<String> litList = new ArrayList<>();
-                    litList.clear();
-                    Log.d(TAG, "friendsids " + childDataSnapshot.getKey());
-                    mfriendsids.add(childDataSnapshot.getKey());
+                    ArrayList<String> myPartiesList = new ArrayList<>();
+                    myPartiesList.clear();
+                    for(DataSnapshot children : childDataSnapshot.getChildren()){
+                        if(children.getKey().contains("-")){
+                            //ignore userid
+                        }
+                        else{
+                            //add party id
+                            mfriendsids.add(children.getKey());
+                            Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
+                        }
+                    }
                 }
-                Log.d(TAG, "friendsList " + mfriendsids);
-                initImageBitmaps();
+                Log.d(TAG,"my followers " + mfriendsids);
+                initRecyclerView();
+                Log.d(TAG, "followersSize " + mfriendsids.size());
+                if(mfriendsids.size() == 0){
+                    noFriendsText.setVisibility(View.VISIBLE);
+                    sadFace.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPartiesActivity">
+    tools:context=".AllUsersActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,27 +27,18 @@
 
     <TextView
         android:id="@+id/no_parties_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/recyclerv_view"
-        android:layout_marginTop="20dp"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_alignBottom="@+id/recyclerv_view"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="@string/no_parties_yet"
+        android:text="@string/no_friends_yet"
         android:textColor="#000"
         android:textSize="28sp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/sad_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/ic_sad"
-        android:layout_below="@id/no_parties_tv"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerv_view"

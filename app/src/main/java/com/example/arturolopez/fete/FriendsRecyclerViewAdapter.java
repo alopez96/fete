@@ -49,16 +49,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
             mspecificPartyRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String uid = dataSnapshot.child("uid").getValue().toString();
-//                    if(Objects.equals(uid, thisuid)){
-                        //do not add me to the list of Friends
-//                        Log.d(TAG, "user is me");
-//                        removeElements(mFriendsIds, thisuid);
-//                        mUserIds = mFriendsIds;
-//                        Log.d(TAG,"friends removed " + mUserIds);
-//                        notifyDataSetChanged();
-//                        return;
-//                    }
+                    if(dataSnapshot.child("uid").getKey() != null){
 
                         if(dataSnapshot.child("img").getValue() != null){
                             mImages.add(dataSnapshot.child("img").getValue().toString());
@@ -74,6 +65,11 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
                             mImageNames.add(dataSnapshot.child("email").getValue().toString());
                             notifyDataSetChanged();
                         }
+                    }
+                    else{
+                        return;
+                    }
+
 
                 }
                 @Override

@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Add friend"
+        android:text="Follow"
         android:textSize="20dp"
         android:id="@+id/add_btn"
         android:layout_margin="11dp"

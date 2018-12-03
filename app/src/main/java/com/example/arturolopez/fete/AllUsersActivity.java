@@ -7,11 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.bumptech.glide.util.LogTime;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,49 +16,40 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
-
-
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MyPartiesActivity extends AppCompatActivity {
+public class AllUsersActivity extends AppCompatActivity {
 
-    private static final String TAG = "MyPartiesActivity";
+    private static final String TAG = "AllUsersActivity";
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserRef, mspecificUserRef;
 
     private String uid;
+    private TextView noPartiesTV;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
-    private ArrayList<String> mpartyids = new ArrayList<>();
-
-    private TextView noPartiesTV;
-    private ImageView sadFace;
-
+    private ArrayList<String> mfriendsids = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_parties);
+        setContentView(R.layout.activity_all_users);
+
+        noPartiesTV = findViewById(R.id.no_parties_tv);
+
+        noPartiesTV.setVisibility(View.GONE);
 
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
         if(toolbarText!=null && toolbar!=null) {
-            toolbarText.setText(R.string.my_parties);
+            toolbarText.setText(R.string.my_friends);
             setSupportActionBar(toolbar);
         }
-
-        noPartiesTV = findViewById(R.id.no_parties_tv);
-        sadFace = findViewById(R.id.sad_image);
-
-        noPartiesTV.setVisibility(View.GONE);
-        sadFace.setVisibility(View.GONE);
 
         getMyParties();
     }
@@ -71,47 +59,43 @@ public class MyPartiesActivity extends AppCompatActivity {
         if(user != null) {
             //user is signed in
             uid = user.getUid();
+            Log.d(TAG, "thisuid: " + uid);
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
-        mspecificUserRef = mUserRef.child(uid);
-        Log.d(TAG,"uid: " + uid);
-        mspecificUserRef.addValueEventListener(new ValueEventListener() {
+        mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    ArrayList<String> myPartiesList = new ArrayList<>();
-                    myPartiesList.clear();
-                    for(DataSnapshot children : childDataSnapshot.getChildren()){
-                        if(!children.getKey().contains("-")){
-                            //ignore userid
-                        }
-                        else{
-                            //add party id
-                            mpartyids.add(children.getKey());
-                            Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
-                        }
+                    ArrayList<String> litList = new ArrayList<>();
+                    litList.clear();
+                    Log.d(TAG, "usersid " + childDataSnapshot.getKey());
+                    if(!Objects.equals(uid, childDataSnapshot.getKey())){
+                        mfriendsids.add(childDataSnapshot.getKey());
                     }
                 }
-                Log.d(TAG,"my parties " + mpartyids);
-                initRecyclerView();
-                Log.d(TAG, "partySize " + mpartyids.size());
-                if(mpartyids.size() == 0){
-                    noPartiesTV.setVisibility(View.VISIBLE);
-                    sadFace.setVisibility(View.VISIBLE);
-                }
+                Log.d(TAG, "usersList " + mfriendsids);
+                initImageBitmaps();
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) { }
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
         });
 
+    }
+
+    private void initImageBitmaps(){
+        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
+
+        initRecyclerView();
     }
 
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        MyPartiesRecyclerViewAdapter adapter = new MyPartiesRecyclerViewAdapter(mNames, mImageUrls, this);
-        adapter.load(mpartyids);
+        FriendsRecyclerViewAdapter adapter = new FriendsRecyclerViewAdapter(mNames, mImageUrls, this);
+        adapter.loadFriends(mfriendsids, uid);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

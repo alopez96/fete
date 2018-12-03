@@ -151,7 +151,9 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, MyPartiesActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_notifications) {
+        } else if (id == R.id.nav_all_users) {
+            Intent i = new Intent(MainActivity.this, AllUsersActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_friends) {
             Intent i = new Intent(MainActivity.this, FriendsActivity.class);

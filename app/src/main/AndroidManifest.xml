@@ -45,7 +45,8 @@
         <activity android:name=".PaymentActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".ForgotPasswdActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".AllUsersActivity"></activity>
     </application>
 
 </manifest>

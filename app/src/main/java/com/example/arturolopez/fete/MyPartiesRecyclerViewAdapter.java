@@ -49,7 +49,7 @@ public class MyPartiesRecyclerViewAdapter extends RecyclerView.Adapter<MyParties
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG,"child hostname " + dataSnapshot.child("hostName").getValue());
                 mImages.add(dataSnapshot.child("imageUrl").getValue().toString());
-                mImageNames.add(dataSnapshot.child("hostName").getValue().toString());
+                mImageNames.add(dataSnapshot.child("partyName").getValue().toString());
                 notifyDataSetChanged();
             }
             @Override
