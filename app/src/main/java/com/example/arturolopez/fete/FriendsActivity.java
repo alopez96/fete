@@ -69,8 +69,6 @@ public class FriendsActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
-
-
         mspecificUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -88,9 +86,9 @@ public class FriendsActivity extends AppCompatActivity {
                         }
                     }
                 }
-                Log.d(TAG,"my friends " + mfriendsids);
+                Log.d(TAG,"my followers " + mfriendsids);
                 initRecyclerView();
-                Log.d(TAG, "partySize " + mfriendsids.size());
+                Log.d(TAG, "followersSize " + mfriendsids.size());
                 if(mfriendsids.size() == 0){
                     noFriendsText.setVisibility(View.VISIBLE);
                     sadFace.setVisibility(View.VISIBLE);

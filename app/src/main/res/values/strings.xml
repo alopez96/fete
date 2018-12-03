@@ -17,7 +17,7 @@
     <string name="nav_my_parties">My Parties</string>
     <string name="nav_users">All Users</string>
     <string name="nav_messages">Messages</string>
-    <string name="nav_friends">Friends</string>
+    <string name="nav_friends">Followers</string>
     <string name="nav_signout">Sign Out</string>
 
 
@@ -43,7 +43,7 @@
 
     <!-- Parties -->
     <string name="my_parties">My Parties</string>
-    <string name="my_friends">My Friends</string>
+    <string name="my_friends">Followers</string>
     <string name="string_for_name">Name</string>
     <string name="string_for_date">Date</string>
     <string name="string_for_address">Address</string>
