@@ -43,7 +43,7 @@ public class ForgotPasswdActivity extends AppCompatActivity {
         TextView toolbarText = findViewById(R.id.toolbar_text);
         Toolbar toolbar = findViewById(R.id.toolbar);
         if(toolbarText!=null && toolbar!=null) {
-            toolbarText.setText(R.string.my_parties);
+            toolbarText.setText(R.string.reset_password);
             setSupportActionBar(toolbar);
         }
 

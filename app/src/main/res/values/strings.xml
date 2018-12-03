@@ -36,10 +36,13 @@
         completions."
     </string>
     <string name="or_divider">Or</string>
-    <string name="create_new_account">CREATE A NEW ACCOUNT</string>
+    <string name="create_new_account">Create a New Account!</string>
     <string name="login_using_facebook">LOG IN WITH FACEBOOK</string>
     <string name="action_register">Register</string>
     <string name="forgot_password">Forgot Password</string>
+    <string name="retrive_password">Enter Your Email:</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="messages">Messages</string>
 
     <!-- Parties -->
     <string name="my_parties">My Parties</string>
@@ -55,6 +58,8 @@
     <string name="leave_party">Leave Party</string>
     <string name="make_payment">$ Contribute $</string>
     <string name="chat">Chat</string>
+    <string name="send">SEND</string>
+    <string name="enter_message">Enter message</string>
 
 
 

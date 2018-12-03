@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -82,8 +83,13 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        TextView toolbarText = findViewById(R.id.toolbar_text);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if(toolbarText!=null && toolbar!=null) {
+            toolbarText.setText(R.string.messages);
+            setSupportActionBar(toolbar);
+        }
 
         mUsername = ANONYMOUS;
 
@@ -225,24 +231,6 @@ public class ChatActivity extends AppCompatActivity {
         mMessageAdapter.clear();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-        // Create a new Party
-        Intent i = new Intent(ChatActivity.this, CreateEventActivity.class);
-        startActivity(i);
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.create_event_btn) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     private void attachDatabaseReadListener(){

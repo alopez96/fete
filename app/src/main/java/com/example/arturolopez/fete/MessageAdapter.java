@@ -27,16 +27,13 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.item_message, parent, false);
         }
 
-        ImageView photoImageView = (ImageView) convertView.findViewById(R.id.photoImageView);
         TextView messageTextView = (TextView) convertView.findViewById(R.id.messageTextView);
         TextView authorTextView = (TextView) convertView.findViewById(R.id.nameTextView);
 
         Message message = getItem(position);
-
-            photoImageView.setVisibility(View.VISIBLE);
-            messageTextView.setVisibility(View.VISIBLE);
-            messageTextView.setText(message.getText());
-            authorTextView.setText(message.getName());
+        messageTextView.setVisibility(View.VISIBLE);
+        messageTextView.setText(message.getText());
+        authorTextView.setText(message.getName());
 
         return convertView;
     }

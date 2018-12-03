@@ -51,7 +51,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String uid = dataSnapshot.child("uid").getValue().toString();
 //                    if(Objects.equals(uid, thisuid)){
-//                        //do not add me to the list of Friends
+                        //do not add me to the list of Friends
 //                        Log.d(TAG, "user is me");
 //                        removeElements(mFriendsIds, thisuid);
 //                        mUserIds = mFriendsIds;

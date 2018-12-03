@@ -225,8 +225,8 @@ public class SpecificEventActivity extends AppCompatActivity {
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
         Log.d(TAG,"you have joined party");
-        Intent home = new Intent(SpecificEventActivity.this, MainActivity.class);
-        startActivity(home);
+        Intent myparties = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
+        startActivity(myparties);
     }
 
     private void removeParty(){
