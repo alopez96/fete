@@ -225,6 +225,11 @@ public class SpecificEventActivity extends AppCompatActivity {
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
         Log.d(TAG,"you have joined party");
+
+        mPartyRef = mFirebaseDatabase.getReference().child("parties");
+        mspecificPartyRef = mPartyRef.child(partyid);
+        mspecificPartyRef.child("peopleJoined").child(uid).setValue("true");
+
         Intent myparties = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
         startActivity(myparties);
     }
