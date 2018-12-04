@@ -79,7 +79,6 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on an image: " + mPartyids.get(position));
-                Toast.makeText(mContext, mPartyids.get(position), Toast.LENGTH_SHORT).show();
             }
         });
 

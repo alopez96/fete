@@ -248,8 +248,6 @@ public class CreateEventActivity extends AppCompatActivity {
                     pd.dismiss();
                     Intent i = new Intent(CreateEventActivity.this, MainActivity.class);
                     startActivity(i);
-
-                Toast.makeText(CreateEventActivity.this, "party created",Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
