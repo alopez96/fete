@@ -9,28 +9,6 @@
     tools:context=".ChatActivity">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.NoActionBar">
-
-        <TextView
-            android:id="@+id/toolbar_text"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            tools:text="Messages" />
-
-    </android.support.v7.widget.Toolbar>
-
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
@@ -49,35 +27,28 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:foregroundGravity="center"
-        android:gravity="center"
+        android:gravity="top"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <ListView
             android:id="@+id/messageListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
             tools:listitem="@layout/item_message" />
-
-
     </LinearLayout>
-
-
-
-
-
-
 
 
     <LinearLayout
