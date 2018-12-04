@@ -1,5 +1,6 @@
 package com.example.arturolopez.fete;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -118,6 +119,8 @@ public class ProfileActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("friends").child(thisuid).setValue("true");
-        Toast.makeText(this, "Friend Request sent!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Now following!",Toast.LENGTH_SHORT).show();
+        Intent a = new Intent(ProfileActivity.this, AllUsersActivity.class);
+        startActivity(a);
     }
 }
