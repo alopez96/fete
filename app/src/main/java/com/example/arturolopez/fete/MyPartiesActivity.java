@@ -4,7 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 
 import com.bumptech.glide.util.LogTime;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+
+
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MyPartiesActivity extends AppCompatActivity {
 
@@ -32,10 +41,27 @@ public class MyPartiesActivity extends AppCompatActivity {
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mpartyids = new ArrayList<>();
 
+    private TextView noPartiesTV;
+    private ImageView sadFace;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_parties);
+
+        TextView toolbarText = findViewById(R.id.toolbar_text);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if(toolbarText!=null && toolbar!=null) {
+            toolbarText.setText(R.string.my_parties);
+            setSupportActionBar(toolbar);
+        }
+
+        noPartiesTV = findViewById(R.id.no_parties_tv);
+        sadFace = findViewById(R.id.sad_image);
+
+        noPartiesTV.setVisibility(View.GONE);
+        sadFace.setVisibility(View.GONE);
 
         getMyParties();
     }
@@ -54,28 +80,31 @@ public class MyPartiesActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    ArrayList<String> litList = new ArrayList<>();
-                    litList.clear();
+                    ArrayList<String> myPartiesList = new ArrayList<>();
+                    myPartiesList.clear();
                     for(DataSnapshot children : childDataSnapshot.getChildren()){
-                        mpartyids.add(children.getKey());
-                        Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
+                        if(!children.getKey().contains("-")){
+                            //ignore userid
+                        }
+                        else{
+                            //add party id
+                            mpartyids.add(children.getKey());
+                            Log.d(TAG, childDataSnapshot.getKey() + ": " + children.getKey());
+                        }
                     }
                 }
                 Log.d(TAG,"my parties " + mpartyids);
-                initImageBitmaps();
+                initRecyclerView();
+                Log.d(TAG, "partySize " + mpartyids.size());
+                if(mpartyids.size() == 0){
+                    noPartiesTV.setVisibility(View.VISIBLE);
+                    sadFace.setVisibility(View.VISIBLE);
+                }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) { }
         });
 
-    }
-
-    private void initImageBitmaps(){
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-        initRecyclerView();
     }
 
     private void initRecyclerView(){

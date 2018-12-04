@@ -1,9 +1,13 @@
 package com.example.arturolopez.fete;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,12 +18,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,8 +46,11 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class CreateEventActivity extends AppCompatActivity {
+
+    private static final String TAG = "CreateEventActivity";
 
     private EditText PartyName;
     private EditText PartyDate;
@@ -50,6 +60,9 @@ public class CreateEventActivity extends AppCompatActivity {
     private Button Submit;
     private Button Cancel;
     private ImageView EventImageButton;
+
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     private String partyname, date, host, price, address, descr, partyid, imageUrl, placeholderImageUrl;
     private String uid;
@@ -63,7 +76,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private DatabaseReference mUsersReference;
     private DatabaseReference mspecificUserRef;
-    private MyUser thisUser;
     private StorageReference mountainsRef;
     private ProgressDialog pd;
 
@@ -73,8 +85,6 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         PartyName = findViewById(R.id.party_name_tv);
         PartyDate = findViewById(R.id.date_tv);
@@ -85,15 +95,21 @@ public class CreateEventActivity extends AppCompatActivity {
         Cancel = findViewById(R.id.cancel_event_tv);
         EventImageButton = findViewById(R.id.event_image_tv);
 
-//        imageUrl = "https://icon-icons.com/icons2/602/PNG/512/SLR_Camera_icon-icons.com_55815.png";
-        imageUrl = "https://www.liwts.org/wp-content/uploads/2016/06/Party-Time1.png";
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mPartyReference = mFirebaseDatabase.getReference().child("parties");
+        partyid = mPartyReference.push().getKey();
+
+        imageUrl = "https://firebasestorage.googleapis.com/v0/b/fete-3963c.appspot.com/o/parties%2F-LSg2RH1LaTG2EaIjVhU?alt=media&token=9ed2b1db-4ad9-429f-85fd-4c788e0b9f96";
         Picasso.get().load(imageUrl).into(EventImageButton);
-        EventImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-            }
-        });
+        if(EventImageButton != null){
+            EventImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+                }
+            });
+        }
+
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,9 +127,36 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mPartyReference = mFirebaseDatabase.getReference().child("parties");
-        partyid = mPartyReference.push().getKey();
+
+        PartyDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(
+                        CreateEventActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener, year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+                String date = month + "/" + day + "/" + year;
+                PartyDate.setText(date);
+            }
+
+        };
+
     }
 
     public void submitEvent(){
@@ -131,6 +174,7 @@ public class CreateEventActivity extends AppCompatActivity {
             uid = currentUser.getUid();
         }
         pushToFirebase();
+        addPartyToMyParties();
     }
 
     @Override
@@ -168,7 +212,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     }
                                     public void onFailure(@NonNull Exception exception) {
                                         // Handle any errors
-                                        Log.e("Eventctivity Exception", exception.toString());
+                                        Log.e("EventActivity Exception", exception.toString());
                                     }
                                 });
                     }
@@ -194,23 +238,35 @@ public class CreateEventActivity extends AppCompatActivity {
                 Log.d("host",host);
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mPartyReference = mFirebaseDatabase.getReference().child("parties");
-                partyid = mPartyReference.push().getKey();
                 mspecificPartyRef = mPartyReference.child(partyid);
-                if(imageUrl != null){
+                Log.d(TAG, "#1 Party ID: " + partyid);
+                if(imageUrl == null) {
+                    imageUrl = "";
+                }
                     thisParty = new Party(partyname, date, host, price, address, descr, partyid, imageUrl);
                     mspecificPartyRef.setValue(thisParty);
                     pd.dismiss();
                     Intent i = new Intent(CreateEventActivity.this, MainActivity.class);
                     startActivity(i);
-                }
-
-                Toast.makeText(CreateEventActivity.this, "party created",Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+    }
+
+    public void addPartyToMyParties(){
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null) {
+            uid = user.getUid();
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mUsersReference = mFirebaseDatabase.getReference().child("users");
+            mspecificUserRef = mUsersReference.child(uid);
+            Log.d(TAG, "Party ID: " + partyid);
+            mspecificUserRef.child("parties").child(partyid).setValue("true");
+        }
     }
 
 }

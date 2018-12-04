@@ -3,11 +3,14 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#4CAF50</color>
     <color name="colorAccent">#2397d5</color>
+    <color name="specific_party">#C8E6C9</color>
 
 
     <color name="white">#FFFFFF</color>
     <color name="blue">#0000ff</color>
     <color name="black">#000000</color>
+    <color name="gray">#D0D5D6</color>
+    <color name="dark_gray">#A9A9A9</color>
     <color name="facebook_color">#4964A0</color>
     <color name="dark_green">#417505</color>
 
@@ -22,5 +25,8 @@
     <!--Button colors-->
     <color name="dark_red">#B20000</color>
     <color name="light_red">#ff3232</color>
+    <color name="simple_red">#A45A52</color>
+    <color name="contribute">#50bfbf</color>
+
 
 </resources>

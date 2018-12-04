@@ -28,6 +28,8 @@ import com.example.arturolopez.fete.Utils.FullImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -37,17 +39,19 @@ import com.squareup.picasso.Picasso;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.StatsSnapshot;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "MainActivity";
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -55,13 +59,19 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> mDates = new ArrayList<>();
     private ArrayList<String> mPartyids = new ArrayList<>();
 
-    private Button eventButton;
     private CircleImageView Selfie;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mPartyRef, mspecifiPartyRef;
     private String partyid;
 
     private String imageUrl;
+    private String uid;
+
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mPartyRef;
+    private DatabaseReference mUsersReference, mSpecificUserRef;
+    private FirebaseDatabase mFirebaseDatabase;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +81,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        eventButton = findViewById(R.id.create_event_btn);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -86,21 +95,15 @@ public class MainActivity extends AppCompatActivity
         Selfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "account page", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, AccountPage.class);
                 startActivity(i);
             }
         });
 
-        eventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivity(i);
-            }
-        });
 
         getImages();
+        getUserImage();
+
     }
 
     @Override
@@ -122,13 +125,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        // Create a new Party
+        Intent i = new Intent(MainActivity.this, CreateEventActivity.class);
+        startActivity(i);
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.create_event_btn) {
             return true;
         }
 
@@ -147,16 +151,26 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, MyPartiesActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_notifications) {
+        } else if (id == R.id.nav_all_users) {
+            Intent i = new Intent(MainActivity.this, AllUsersActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_friends) {
+            Intent i = new Intent(MainActivity.this, FriendsActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_messages) {
+            Intent i = new Intent(MainActivity.this, ChatActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_setting) {
+        } else if (id == R.id.action_settings) {
+            //sign out
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(this,"logged out", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -165,7 +179,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        initRecyclerView();
+        getUserImage();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initRecyclerView();
+        getUserImage();
+    }
+
 
     private void getImages(){
         //get adress and date of parties
@@ -176,14 +200,14 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("Count " ,""+ dataSnapshot.getChildrenCount());
                 for (DataSnapshot childDataSnapshot: dataSnapshot.getChildren()) {
-                    final String name = childDataSnapshot.child("address").getValue().toString();
+                    final String name = childDataSnapshot.child("partyName").getValue().toString();
                     final String date = childDataSnapshot.child("date").getValue().toString();
                     final String imageUrl = childDataSnapshot.child("imageUrl").getValue().toString();
-                    final String partid = childDataSnapshot.child("partyid").getValue().toString();
+                    final String partyid = childDataSnapshot.child("partyid").getValue().toString();
                     mDates.add(date);
                     mNames.add(name);
                     mImageUrls.add(imageUrl);
-                    mPartyids.add(partid);
+                    mPartyids.add(partyid);
                 }
                 initRecyclerView();
             }
@@ -204,4 +228,43 @@ public class MainActivity extends AppCompatActivity
         EventRecyclerViewAdapter adapter = new EventRecyclerViewAdapter(this, mDates, mNames, mImageUrls, mPartyids);
         recyclerView.setAdapter(adapter);
     }
+
+    private void getUserImage(){
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            //user is signed in
+            uid = user.getUid();
+        }
+        else{
+            return;
+        }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsersReference = mFirebaseDatabase.getReference().child("users");
+        mSpecificUserRef = mUsersReference.child(uid);
+        mSpecificUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("img").getValue() != null){
+                    imageUrl = dataSnapshot.child("img").getValue().toString();
+                }
+                Picasso.get().load(imageUrl).into(Selfie, new com.squareup.picasso.Callback(){
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG,"picassoimage success");
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Log.d(TAG,"picassoimage failed");
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.example.arturolopez.fete;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class SpecificEventActivity extends AppCompatActivity {
 
@@ -34,6 +38,8 @@ public class SpecificEventActivity extends AppCompatActivity {
     private TextView descTV;
     private Button joinButton;
     private Button leaveButton;
+    private Button payButton;
+    private Button chatButton;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mPartyRef, mspecificPartyRef;
@@ -44,6 +50,8 @@ public class SpecificEventActivity extends AppCompatActivity {
     private String name, date, hostname, price, address, desc, imageurl, partyid;
 
     private String uid;
+
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +66,41 @@ public class SpecificEventActivity extends AppCompatActivity {
         descTV  = findViewById(R.id.desc_tv);
         joinButton = findViewById(R.id.join_btn);
         leaveButton = findViewById(R.id.leave_btn);
+        payButton = findViewById(R.id.payment_btn);
+        chatButton = findViewById(R.id.chat_btn);
 
+        String partyBoolean;
+        boolean partyJoinedTrue;
         partyid = getIntent().getStringExtra("partyid");
-        Log.d(TAG, partyid);
+        partyBoolean = getIntent().getStringExtra("partyBoolean");
+        Log.d(TAG,"partyid " + partyid);
+        Log.d(TAG,"partyBoolean " + partyBoolean);
+
+        partyJoinedTrue = false;
+        if(partyBoolean != null){
+            partyJoinedTrue = Objects.equals("true", partyBoolean);
+            if(partyJoinedTrue){
+                Log.d(TAG,"you have joined this party.");
+                joinButton.setVisibility(View.GONE);
+            }
+            else{
+                Log.d(TAG,"you have NOT joined this party.");
+                leaveButton.setVisibility(View.GONE);
+                chatButton.setVisibility(View.GONE);
+            }
+        }
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SpecificEventActivity.this, ChatActivity.class);
+                Log.d(TAG, partyid);
+                if(partyid != null){
+                    i.putExtra("partyid", partyid);
+                    startActivity(i);
+                }
+            }
+        });
 
         getPartyInfo();
 
@@ -84,11 +124,29 @@ public class SpecificEventActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                removeParty();
-                Toast.makeText(SpecificEventActivity.this,"this button is not working yet",Toast.LENGTH_SHORT).show();
+                pd = new ProgressDialog(SpecificEventActivity.this);
+                pd.setMessage("Leaving Party...");
+                pd.show();
+                removeParty();
+            }
+        });
+
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SpecificEventActivity.this, PaymentActivity.class);
+                startActivity(i);
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+
 
     private void getPartyInfo(){
         //get adress and date of parties
@@ -109,7 +167,12 @@ public class SpecificEventActivity extends AppCompatActivity {
                     desc = thisParty.description;
                     populateInfo(name, date, hostname, price, address, desc);
                 }
-                Picasso.get().load(imageurl).into(imageView);
+                if(!imageurl.isEmpty()){
+                    Picasso.get().load(imageurl).into(imageView);
+                }
+                else{
+                    imageView.setVisibility(View.INVISIBLE);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -161,9 +224,14 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).setValue("true");
-        Toast.makeText(this, "You have joined party",Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
-        startActivity(i);
+        Log.d(TAG,"you have joined party");
+
+        mPartyRef = mFirebaseDatabase.getReference().child("parties");
+        mspecificPartyRef = mPartyRef.child(partyid);
+        mspecificPartyRef.child("peopleJoined").child(uid).setValue("true");
+
+        Intent myparties = new Intent(SpecificEventActivity.this, MyPartiesActivity.class);
+        startActivity(myparties);
     }
 
     private void removeParty(){
@@ -176,6 +244,9 @@ public class SpecificEventActivity extends AppCompatActivity {
         mUserRef = mFirebaseDatabase.getReference().child("users");
         mspecificUserRef = mUserRef.child(uid);
         mspecificUserRef.child("parties").child(partyid).removeValue();
-        System.out.println("removed from MyParties");
+        Log.d(TAG,"you have left party");
+        pd.dismiss();
+        Intent home = new Intent(SpecificEventActivity.this, MainActivity.class);
+        startActivity(home);
     }
 }

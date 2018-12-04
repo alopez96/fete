@@ -1,130 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SpecificEventActivity"
+    xmlns:tipbook="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/specific_party" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:text="name"
-            android:id="@+id/name_tv"
-            android:layout_marginTop="40dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
 
         <android.support.v7.widget.CardView
-            android:layout_width="210dp"
-            android:layout_height="190dp"
-            card_view:cardBackgroundColor="@android:color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/date_tv"
             android:id="@+id/card"
-            app:cardCornerRadius="8dp"
-            android:elevation="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            tipbook:contentPadding="5dp"
+            tipbook:cardElevation="10dp"
+            card_view:cardBackgroundColor="@color/white">
+
             <ImageView
+                android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignStart="@+id/card"
+                android:contentDescription="@string/party_image"
                 android:scaleType="centerCrop"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/image_view"
                 android:src="@drawable/ic_launcher_background" />
+
         </android.support.v7.widget.CardView>
 
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:text="date"
-            android:id="@+id/date_tv"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
+            android:layout_margin="8dp"
+            tipbook:contentPadding="5dp"
+            tipbook:cardElevation="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:id="@+id/textlinearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:text="address"
-            android:id="@+id/address_tv"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_for_name"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:text="price"
-            android:id="@+id/price_tv"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
+                <TextView
+                    android:id="@+id/date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_for_date"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/address_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_for_address"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_for_price"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/desc_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_for_description"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:text="description"
-            android:id="@+id/desc_tv"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
+            <Button
+                android:id="@+id/join_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_join_party"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Join party"
-            android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:id="@+id/join_btn"
-            android:background="@drawable/green_btn"
-            android:textColor="@color/white"
-            />
+            <Button
+                android:id="@+id/leave_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_leave_party"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Leave party"
-            android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:id="@+id/leave_btn"
-            android:background="@drawable/red_btn"
-            android:textColor="@color/white"
-            />
+            <Button
+                android:id="@+id/payment_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_contribute"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/chat_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_chat"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

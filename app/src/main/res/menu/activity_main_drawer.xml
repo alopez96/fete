@@ -11,7 +11,7 @@
 
         <item
             android:id="@+id/nav_friends"
-            android:icon="@drawable/ic_friends_black_24dp"
+            android:icon="@drawable/ic_favorite_black_24dp"
             android:title="@string/nav_friends" />
 
         <item
@@ -25,22 +25,18 @@
             android:title="@string/nav_messages" />
 
         <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="@string/nav_notifications" />
+            android:id="@+id/nav_all_users"
+            android:icon="@drawable/ic_friends_black_24dp"
+            android:title="@string/nav_users" />
 
     </group>
 
     <item android:title="">
         <menu>
             <item
-                android:id="@+id/nav_help"
-                android:icon="@drawable/ic_help_black_24dp"
-                android:title="@string/nav_help" />
-            <item
-                android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="@string/nav_setting" />
+                android:id="@+id/action_settings"
+                android:icon="@drawable/ic_exit_to_app_white_24dp"
+                android:title="@string/nav_signout" />
         </menu>
     </item>
 

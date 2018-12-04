@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">fete</string>
-    <string name="title_activity_main2">Fete</string>
+    <string name="app_name">Fete</string>
+    <string name="title_activity_main2">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Fete</string>
@@ -15,18 +15,19 @@
     <!-- Navigation Drawer Strings -->
     <string name="nav_home">Home</string>
     <string name="nav_my_parties">My Parties</string>
-    <string name="nav_notifications">Notifications</string>
+    <string name="nav_users">All Users</string>
     <string name="nav_messages">Messages</string>
-    <string name="nav_friends">Friends</string>
-    <string name="nav_help">Help</string>
-    <string name="nav_setting">Setting</string>
+    <string name="nav_friends">Followers</string>
+    <string name="nav_signout">Sign Out</string>
 
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Already Have An Account Sign In</string>
-    <string name="action_sign_in_short">Sign In</string>
+    <string name="action_forgot_passwd">Forgot Password</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="action_sign_in_google">Sign In With Google</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -35,9 +36,33 @@
         completions."
     </string>
     <string name="or_divider">Or</string>
-    <string name="create_new_contacts">CREATE A NEW CONTACT</string>
+    <string name="create_new_account">Create a New Account!</string>
     <string name="login_using_facebook">LOG IN WITH FACEBOOK</string>
     <string name="action_register">Register</string>
     <string name="forgot_password">Forgot Password</string>
+    <string name="retrive_password">Enter Your Email:</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="messages">Messages</string>
+
+    <!-- Parties -->
+    <string name="my_parties">My Parties</string>
+    <string name="my_friends">Followers</string>
+    <string name="all_users">All Users</string>
+    <string name="string_for_name">Name</string>
+    <string name="string_for_date">Date</string>
+    <string name="string_for_address">Address</string>
+    <string name="string_for_price">Price</string>
+    <string name="string_for_description">Description</string>
+    <string name="no_parties_yet">You have not joined any parties :(</string>
+    <string name="no_friends_yet">You do not have any friends</string>
+    <string name="party_image">Party Image(</string>
+    <string name="join_party">Join Party</string>
+    <string name="leave_party">Leave Party</string>
+    <string name="make_payment">$ Contribute $</string>
+    <string name="chat">Chat</string>
+    <string name="send">SEND</string>
+    <string name="enter_message">Enter message</string>
+    <string name="pay_with_google">Pay with Google!</string>
+
 
 </resources>
